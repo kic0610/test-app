@@ -7,6 +7,8 @@ import { useCallback } from "react";
 import MultipleChoice from "../components/MultipleChoice";
 import SubjectiveQuestion from "../components/SubjectiveQuestion";
 import { Button } from "antd";
+
+import Axios from "axios";
 import shortid from "shortid";
 
 const TemplateSelect = styled.div`
@@ -147,7 +149,9 @@ const Surveying = () => {
   );
 
   let onFinish = () => {
-    console.log("제출시도", new Date());
+    Axios.get("http://localhost:8000/", {}).then(() => {
+      alert(` 설문 제출 시도 완료!`);
+    });
   };
 
   return (
@@ -157,7 +161,6 @@ const Surveying = () => {
         번호별(설문+설문타입,객관식선택지,주관식은타입만체크)))
       </h1>
       <TemplateSelect>
-        {/* <span style={{ backgroundColor: "#EE5D5A" }}>설문 작성 완료</span> */}
         <Button type="primary" htmlType="submit">
           설문 작성 완료
         </Button>

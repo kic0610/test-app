@@ -1,0 +1,3 @@
+
+"start": "node index.js" 문제가 있어서
+node index.js로 실행해보기
