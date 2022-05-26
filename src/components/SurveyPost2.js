@@ -6,6 +6,7 @@ import styled from "styled-components";
 import PostGraph from "./PostGraph";
 import { useState } from "react";
 import { Button } from "antd";
+import shortid from "shortid";
 
 const ServeyForm = styled(Form)`
   position: relative;
@@ -60,9 +61,9 @@ const SurveyBox = styled.div`
   }
 
   .answerObjectivityItem {
-    min-width: 85px;
+    min-width: 75px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 7.5px;
     margin-bottom: 7.5px;
@@ -79,21 +80,26 @@ const SurveyBox = styled.div`
   }
 `;
 
-const SurveyPost = () => {
-  let title = "설문제목1";
+const SurveyPost2 = (homeCardData) => {
+  let data = homeCardData.homeCardData;
+
+  let title = data.SERVEY_TITLE;
+  let SubjectiveQuestion = data.SUBJECTIVE_QUESTION.split(",");
+  let MultipleChoiceQuestion = data.MULTIPLECHOICE_QUESTION.split(",");
+  let MultipleChoiceQuestionOption = data.MULTIPLECHOICE_QUESTION_OPTION.split(",");
+
+  console.log(MultipleChoiceQuestionOption, 888);
 
   // 입력을 받아서 상태로 저장하는 모듈
-  let [multipleChoiceServey, setMultipleChoiceServey] = useState([{ question: "가장 좋아하는 음식은 1 ?" }, { question: "가장 좋아하는 음식은 2 ?" }]);
-  let [subjectiveQuestionServey, setSubjectiveQuestionServey] = useState([
-    {
-      question: "가장 좋아하는 음식은 a ?",
-      option: ["고기피자", "포테이토피자", "김치피자", "장문 텍스트 입니다. 장문 텍스트 입니다 장문 텍스트 입니다 장문 텍스트 입니다.", "적당한 길이의 텍스트"],
-    },
-    {
-      question: "가장 좋아하는 음식은 b ?",
-      option: ["고기피자", "포테이토피자", "김치피자", "장문 텍스트 입니다. 장문 텍스트 입니다 장문 텍스트 입니다 장문 텍스트 입니다.", "적당한 길이의 텍스트"],
-    },
+  let [subjectiveQuestionState, setSubjectiveQuestionState] = useState(SubjectiveQuestion);
+  let [MultipleChoiceQuestionState, setMultipleChoiceQuestionState] = useState(MultipleChoiceQuestion);
+  // let [MultipleChoiceQuestionOptionState, setMultipleChoiceQuestionOptionState] = useState(MultipleChoiceQuestionOption);
+  let [MultipleChoiceQuestionOptionState, setMultipleChoiceQuestionOptionState] = useState([
+    ["프랑스", "영국", "대만", "일본", "제주도"],
+    ["발라드", "재즈", "어쿠스틱", "락", "트로트"],
   ]);
+
+  console.log(MultipleChoiceQuestionOptionState, 999);
 
   return (
     <div>
@@ -102,12 +108,13 @@ const SurveyPost = () => {
       <ServeyForm>
         <div className="TopForm">
           {title}
+
           <Button type="primary">설문 작성 완료</Button>
         </div>
 
-        {multipleChoiceServey.map((mcdata) => (
-          <SurveyBox>
-            <div className="surveyQuestion">{mcdata.question}</div>
+        {subjectiveQuestionState.map((sqdata) => (
+          <SurveyBox key={shortid.generate()}>
+            <div className="surveyQuestion">{sqdata}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <Input.TextArea placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
@@ -115,22 +122,39 @@ const SurveyPost = () => {
           </SurveyBox>
         ))}
 
-        {subjectiveQuestionServey.map((sqdata) => (
-          <SurveyBox>
-            <div className="surveyQuestion">{sqdata.question}</div>
+        {MultipleChoiceQuestionState.map((mcqdata, index) => (
+          <SurveyBox key={shortid.generate()}>
+            <div className="surveyQuestion">{mcqdata}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <div className="answerObjectivity">
-              {sqdata.option.map((sqdata2) => (
+              {MultipleChoiceQuestionOptionState[index].map((Option) => (
                 <span className="answerObjectivityItem">
-                  <input type="checkbox" name="피자" id="피자" />
-                  <label for="피자">{sqdata2}</label>
+                  <input type="checkbox" id={Option} />
+                  <label htmlFor={Option}>{Option}</label>
                 </span>
               ))}
             </div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
           </SurveyBox>
         ))}
+        {/* 
+        {MultipleChoiceQuestionState.map((mcqdata) => (
+          <SurveyBox>
+            <div className="surveyQuestion">{mcqdata}</div>
+            <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
+
+            <div className="answerObjectivity">
+              {MultipleChoiceQuestionOptionState.map((Option) => (
+                <span className="answerObjectivityItem">
+                  <input type="checkbox" name="피자" id="피자" />
+                  <label htmlFor="피자">{Option}</label>
+                </span>
+              ))}
+            </div>
+            <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
+          </SurveyBox>
+        ))} */}
       </ServeyForm>
 
       <PostGraph />
@@ -138,4 +162,4 @@ const SurveyPost = () => {
   );
 };
 
-export default SurveyPost;
+export default SurveyPost2;

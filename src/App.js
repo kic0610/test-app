@@ -1,16 +1,18 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Switch } from "react-router-dom";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import styled from "styled-components";
 
-import SignupForm from "./pages/SignupForm";
-import LoginForm from "./pages/LoginForm";
 import Surveying from "./pages/Surveying";
 import SearchResult from "./components/SearchResult";
 import MySurvey from "./components/MySurvey";
 import SurveyPost from "./components/SurveyPost";
 import HomeMenu from "./components/HomeMenu";
+import SignupForm from "./pages/SignupForm";
+import LoginForm from "./pages/LoginForm";
+import axios from "axios";
+import SurveyPost2 from "./components/SurveyPost2";
 
 const MyFooter = styled.footer`
   position: absolute;
@@ -24,20 +26,31 @@ const MyFooter = styled.footer`
 `;
 
 const App = () => {
+  let [homeCardData, setHomeCardData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8001/list", {}).then((res) => {
+      setHomeCardData(res.data);
+    });
+  }, []);
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "Background" }}>
       <HomeMenu />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignupForm />} />
-        <Route path="/login" element={<LoginForm />} />
+        <Route exact path="/" element={<Home />} />
         <Route path="/surveying" element={<Surveying />} />
-      </Routes>
+        {/* 나중에 구현 */}
+        {/* <Route path="/signup" element={<SignupForm />} /> */}
+        {/* <Route path="/login" element={<LoginForm />} /> */}
 
-      <Routes>
         <Route path="/search/query" element={<SearchResult />} />
         <Route path="/Writer_id/post" element={<MySurvey />} />
-        <Route path="/post/1_post_id" element={<SurveyPost />} />
+        {homeCardData.map((homeCardData) => (
+          <Route path="/post/num:id" key={homeCardData.BOARD_ID} element={<SurveyPost2 key={homeCardData.BOARD_ID} homeCardData={homeCardData} />} />
+        ))}
+
+        {/* <Routes path="/post/1_post_1" element={<SurveyPost />} /> */}
       </Routes>
       <br />
       <br />

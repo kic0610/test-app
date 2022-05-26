@@ -149,8 +149,9 @@ const Surveying = () => {
   );
 
   let onFinish = () => {
-    Axios.get("http://localhost:8000/", {}).then(() => {
+    Axios.get("http://localhost:8001/list", {}).then((res) => {
       alert(` 설문 제출 시도 완료!`);
+      console.log(res.data[0].SERVEY_CONTENT, 556);
     });
   };
 
