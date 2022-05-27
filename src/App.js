@@ -49,8 +49,9 @@ const App = () => {
         <Route path="/search/query" element={<SearchResult />} />
         <Route path="/Writer_id/post" element={<MySurvey />} />
 
+        {/* 이 컴포넌트를 상세페이지로 만들기 이때 주소별로 <SurveyPost/>를 인스턴스화 시켜야함 */}
         <Route path="/post/:id" element={<SurveyPost data={homeCardData} />} />
-        {/* <Route path="/post/:id" element={<SurveyPost2 data={homeCardData} />} /> */}
+        {/* <Routes path="/post/:id" element={<SurveyPost data={homeCardData} />} /> */}
       </Routes>
       <br />
       <br />
