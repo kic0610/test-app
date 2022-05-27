@@ -9,10 +9,11 @@ import SearchResult from "./components/SearchResult";
 import MySurvey from "./components/MySurvey";
 import SurveyPost from "./components/SurveyPost";
 import HomeMenu from "./components/HomeMenu";
-import SignupForm from "./pages/SignupForm";
-import LoginForm from "./pages/LoginForm";
 import axios from "axios";
 import SurveyPost2 from "./components/SurveyPost2";
+import shortid from "shortid";
+import SignupForm from "./pages/SignupForm";
+import LoginForm from "./pages/LoginForm";
 
 const MyFooter = styled.footer`
   position: absolute;
@@ -29,8 +30,9 @@ const App = () => {
   let [homeCardData, setHomeCardData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8001/list", {}).then((res) => {
+    axios.get("http://localhost:8002/list").then((res) => {
       setHomeCardData(res.data);
+      console.log(res.data, "homeCardData");
     });
   }, []);
 
@@ -38,7 +40,7 @@ const App = () => {
     <div style={{ minHeight: "100vh", backgroundColor: "Background" }}>
       <HomeMenu />
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Home data={homeCardData} />} />
         <Route path="/surveying" element={<Surveying />} />
         {/* 나중에 구현 */}
         {/* <Route path="/signup" element={<SignupForm />} /> */}
@@ -46,11 +48,9 @@ const App = () => {
 
         <Route path="/search/query" element={<SearchResult />} />
         <Route path="/Writer_id/post" element={<MySurvey />} />
-        {homeCardData.map((homeCardData) => (
-          <Route path="/post/num:id" key={homeCardData.BOARD_ID} element={<SurveyPost2 key={homeCardData.BOARD_ID} homeCardData={homeCardData} />} />
-        ))}
 
-        {/* <Routes path="/post/1_post_1" element={<SurveyPost />} /> */}
+        <Route path="/post/:id" element={<SurveyPost data={homeCardData} />} />
+        {/* <Route path="/post/:id" element={<SurveyPost2 data={homeCardData} />} /> */}
       </Routes>
       <br />
       <br />

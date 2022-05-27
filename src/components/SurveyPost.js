@@ -1,11 +1,13 @@
 import { Input, Form } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import PostGraph from "./PostGraph";
-import { useState } from "react";
 import { Button } from "antd";
+import shortid from "shortid";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ServeyForm = styled(Form)`
   position: relative;
@@ -60,9 +62,9 @@ const SurveyBox = styled.div`
   }
 
   .answerObjectivityItem {
-    min-width: 85px;
+    min-width: 75px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 7.5px;
     margin-bottom: 7.5px;
@@ -78,36 +80,32 @@ const SurveyBox = styled.div`
     border: none;
   }
 `;
+const Ddiv = styled.div`
+  // 자식 css 범위 확인
+  border: 3px solid blue;
+  > * {
+    border: 2px solid red;
+  }
+`;
 
-const SurveyPost = () => {
-  let title = "설문제목1";
+const SurveyPost = (data) => {
+  let data1 = data.data;
 
-  // 입력을 받아서 상태로 저장하는 모듈
-  let [multipleChoiceServey, setMultipleChoiceServey] = useState([{ question: "가장 좋아하는 음식은 1 ?" }, { question: "가장 좋아하는 음식은 2 ?" }]);
-  let [subjectiveQuestionServey, setSubjectiveQuestionServey] = useState([
-    {
-      question: "가장 좋아하는 음식은 a ?",
-      option: ["고기피자", "포테이토피자", "김치피자", "장문 텍스트 입니다. 장문 텍스트 입니다 장문 텍스트 입니다 장문 텍스트 입니다.", "적당한 길이의 텍스트"],
-    },
-    {
-      question: "가장 좋아하는 음식은 b ?",
-      option: ["고기피자", "포테이토피자", "김치피자", "장문 텍스트 입니다. 장문 텍스트 입니다 장문 텍스트 입니다 장문 텍스트 입니다.", "적당한 길이의 텍스트"],
-    },
-  ]);
-
-  return (
-    <div>
+  console.log(data1, "FFinal");
+  return data1.map((item) => (
+    <Ddiv>
       <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
 
       <ServeyForm>
         <div className="TopForm">
-          {title}
+          {item.SERVEY_TITLE}
+
           <Button type="primary">설문 작성 완료</Button>
         </div>
 
-        {multipleChoiceServey.map((mcdata) => (
-          <SurveyBox>
-            <div className="surveyQuestion">{mcdata.question}</div>
+        {item.SUBJECTIVE_QUESTION[0].map((data) => (
+          <SurveyBox key={shortid.generate()}>
+            <div className="surveyQuestion">{data}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <Input.TextArea placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
@@ -115,16 +113,16 @@ const SurveyPost = () => {
           </SurveyBox>
         ))}
 
-        {subjectiveQuestionServey.map((sqdata) => (
-          <SurveyBox>
-            <div className="surveyQuestion">{sqdata.question}</div>
+        {item.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
+          <SurveyBox key={shortid.generate()}>
+            <div className="surveyQuestion">{data}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <div className="answerObjectivity">
-              {sqdata.option.map((sqdata2) => (
-                <span className="answerObjectivityItem">
-                  <input type="checkbox" name="피자" id="피자" />
-                  <label for="피자">{sqdata2}</label>
+              {item.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option) => (
+                <span key={shortid.generate()} className="answerObjectivityItem">
+                  <input type="checkbox" id={Option} />
+                  <label htmlFor={Option}>{Option}</label>
                 </span>
               ))}
             </div>
@@ -134,8 +132,8 @@ const SurveyPost = () => {
       </ServeyForm>
 
       <PostGraph />
-    </div>
-  );
+    </Ddiv>
+  ));
 };
 
 export default SurveyPost;

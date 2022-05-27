@@ -1,13 +1,11 @@
 import { Input, Form } from "antd";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import styled from "styled-components";
 import PostGraph from "./PostGraph";
 import { Button } from "antd";
 import shortid from "shortid";
-import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
 
 const ServeyForm = styled(Form)`
   position: relative;
@@ -80,32 +78,45 @@ const SurveyBox = styled.div`
     border: none;
   }
 `;
-const Ddiv = styled.div`
-  // 자식 css 범위 확인
-  border: 3px solid blue;
-  > * {
-    border: 2px solid red;
-  }
-`;
 
-const SurveyPost2 = (data) => {
-  let data1 = data.data;
+const Kic = (homeCardData) => {
+  let data = homeCardData.homeCardData;
 
-  console.log(data1, "final");
-  return data1.map((item) => (
-    <Ddiv>
+  let OptionJsonString = data.profile;
+  let title = data.SERVEY_TITLE;
+  let SubjectiveQuestion = data.SUBJECTIVE_QUESTION.split(",");
+  let MultipleChoiceQuestion = data.MULTIPLECHOICE_QUESTION.split(",");
+  let MultipleChoiceQuestionOption = JSON.parse(OptionJsonString);
+
+  let subjectiveQuestionState = SubjectiveQuestion;
+  let MultipleChoiceQuestionState = MultipleChoiceQuestion;
+  let MultipleChoiceQuestionOptionState = MultipleChoiceQuestionOption;
+
+  console.log(subjectiveQuestionState);
+
+  // 입력을 받아서 상태로 저장하는 모듈
+  // let [subjectiveQuestionState, setSubjectiveQuestionState] = useState(SubjectiveQuestion);
+  // let [MultipleChoiceQuestionState, setMultipleChoiceQuestionState] = useState(MultipleChoiceQuestion);
+  // let [MultipleChoiceQuestionOptionState, setMultipleChoiceQuestionOptionState] = useState(MultipleChoiceQuestionOption);
+
+  // console.log(MultipleChoiceQuestionOptionState, 777);
+  // console.log(typeof data.profile, 888);
+  // console.log(MultipleChoiceQuestionOptionState, 999);
+
+  return (
+    <div>
       <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
 
       <ServeyForm>
         <div className="TopForm">
-          {item.SERVEY_TITLE}
+          {title}
 
           <Button type="primary">설문 작성 완료</Button>
         </div>
 
-        {item.SUBJECTIVE_QUESTION[0].map((data) => (
+        {subjectiveQuestionState.map((sqdata) => (
           <SurveyBox key={shortid.generate()}>
-            <div className="surveyQuestion">{data}</div>
+            <div className="surveyQuestion">{sqdata}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <Input.TextArea placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
@@ -113,13 +124,13 @@ const SurveyPost2 = (data) => {
           </SurveyBox>
         ))}
 
-        {item.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
+        {MultipleChoiceQuestionState.map((mcqdata, index) => (
           <SurveyBox key={shortid.generate()}>
-            <div className="surveyQuestion">{data}</div>
+            <div className="surveyQuestion">{mcqdata}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <div className="answerObjectivity">
-              {item.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option) => (
+              {MultipleChoiceQuestionOptionState[index].map((Option) => (
                 <span key={shortid.generate()} className="answerObjectivityItem">
                   <input type="checkbox" id={Option} />
                   <label htmlFor={Option}>{Option}</label>
@@ -132,8 +143,8 @@ const SurveyPost2 = (data) => {
       </ServeyForm>
 
       <PostGraph />
-    </Ddiv>
-  ));
+    </div>
+  );
 };
 
-export default SurveyPost2;
+export default Kic;

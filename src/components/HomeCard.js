@@ -31,7 +31,7 @@ const HomeCard = (data) => {
   let timeString_KR = dateObj.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
 
   return (
-    <Link to={`/post/num${cardData.BOARD_ID}`}>
+    <Link to={`/post/${cardData.BOARD_ID}`}>
       <Card
         hoverable
         style={{ width: 270, height: "400px", border: "1.5px solid black", borderRadius: "4%", backgroundColor: "#FDFDFD" }}

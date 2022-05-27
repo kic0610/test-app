@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useState } from "react";
 
 import HomeCard from "../components/HomeCard";
-import axios from "axios";
 import shortid from "shortid";
 import Clock from "../components/Clock";
+import axios from "axios";
 
 const HomeSection = styled.section`
   width: 100%;
@@ -21,25 +21,22 @@ const HomeSection = styled.section`
   align-items: flex-start;
 `;
 
-const Home = () => {
-  let [homeCardData, setHomeCardData] = useState([]);
+const Home = (data) => {
+  let data1 = data.data;
 
-  let onGet = () => {
-    axios.get("http://localhost:8001/list", {}).then((res) => {
-      setHomeCardData(res.data);
-      console.log(res.data);
+  useEffect(() => {
+    axios.get("http://localhost:8002/list").then((res) => {
+      console.log(res.data, "homejs");
     });
-  };
+  }, []);
 
   return (
     // prop를 받아와 하나씩 넣어서
     <div>
-      <h1 style={{ marginLeft: "5%", fontWeight: 600 }} onClick={onGet}>
-        홈 (설문post접근데이터 , 작성자명 , 설문제목을 썸네일로 구현 )
-      </h1>
+      <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>홈 (설문post접근데이터 , 작성자명 , 설문제목을 썸네일로 구현 )</h1>
       <Clock />
       <HomeSection>
-        {homeCardData.map((data) => (
+        {data1.map((data) => (
           <HomeCard key={shortid.generate()} data={data} />
         ))}
       </HomeSection>
