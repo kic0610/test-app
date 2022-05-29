@@ -1,9 +1,9 @@
-import { Input } from "antd";
+import { Input, Form } from "antd";
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { DatePicker, Space } from "antd";
 import { useCallback } from "react";
-import shortid from "shortid";
 
 const SurveyBox = styled.div`
   margin-top: 100px;
@@ -19,7 +19,7 @@ const SurveyBox = styled.div`
 
   .answerObjectivityItem {
     /* min-width: 85px; */
-    width: 249px;
+    width: 280px;
     height: 70px;
 
     display: flex;
@@ -28,6 +28,7 @@ const SurveyBox = styled.div`
     margin: 9px;
   }
 
+  /* ant-input는 Input.TextArea를 뜻함 */
   .SubjectiveQuestionTitle {
     font-size: 1rem;
     width: 99%;
@@ -35,19 +36,6 @@ const SurveyBox = styled.div`
     background-color: #181a1b;
     color: #a5a5a6;
     border: none;
-  }
-
-  .OptionForm {
-    font-size: 1rem;
-    color: #a5a5a6;
-    height: 55px;
-    background-color: #181a1b;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .OptionForm::-webkit-scrollbar {
-    display: none;
   }
 
   .AnswerTypeSelect {
@@ -80,53 +68,20 @@ const SurveyBox = styled.div`
 `;
 
 const SubjectiveQuestion = (data) => {
-  let [option, setOption] = useState([]);
-
-  let onOptionAdd = useCallback(() => {
-    let shortkey = shortid.generate();
-    setOption(option.concat(shortkey));
-  }, [option]);
-
-  let onOptionRemove = useCallback(
-    (e) => {
-      const target = e.currentTarget.getAttribute("data-option-key");
-      setOption(option.filter((data) => data !== target));
-    },
-    [option]
-  );
-
-  // 입력을 받아서 상태로 저장하는 모듈
-  let [state, setState] = useState();
-  let onInput = useCallback((e) => {
-    setState(e.target.value);
-    console.log(e.target.value);
-  }, []);
-
   return (
-    <SurveyBox key={data} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
-      <Input.TextArea className="SubjectiveQuestionTitle" placeholder="설문을 입력하세요" value={state} onChange={onInput}></Input.TextArea>
+    <SurveyBox key={data}>
+      <Input.TextArea className="SubjectiveQuestionTitle" placeholder="이곳에 질의할 설문을 입력하세요"></Input.TextArea>
       <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
-      <span onClick={onOptionAdd} style={{ cursor: "pointer" }}>
-        <PlusCircleOutlined style={{ marginRight: "10px", marginTop: "20px", fontSize: "1rem" }} />
-        선택지 추가
-      </span>
-
-      <br />
-
-      <div className="answerObjectivitybox">
-        {option.map((data2) => (
-          <span className="answerObjectivityItem" key={data2}>
-            <span onClick={onOptionRemove} data-option-key={data2}>
-              <MinusCircleOutlined style={{ marginRight: "5px", cursor: "pointer" }} />
-            </span>
-            <Input.TextArea className="OptionForm" placeholder="선택지를 입력"></Input.TextArea>
-          </span>
-        ))}
+      <div className="AnswerTypeSelect">
+        <span style={{ marginRight: "90px" }}> 응답받을 답변 형식을 선택하세요.</span>
+        <span className="subjectiveQuestion">주관식</span> <span className="objectivityQuestion">객관식</span>
       </div>
+
+      <div className="answerSubject">사용자의 답변이 입력되는 란입니다.</div>
       <div
         className="bottomLine"
-        style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block", marginTop: "20px" }}
+        style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block", marginTop: "10px" }}
       ></div>
     </SurveyBox>
   );

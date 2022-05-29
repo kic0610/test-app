@@ -1,15 +1,16 @@
 import { Input, Form } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { DatePicker, Space } from "antd";
+import { DatePicker } from "antd";
 import { useCallback } from "react";
+import { Button } from "antd";
+import axios from "axios";
+import shortid from "shortid";
 import MultipleChoice from "../components/MultipleChoice";
 import SubjectiveQuestion from "../components/SubjectiveQuestion";
-import { Button } from "antd";
-
-import Axios from "axios";
-import shortid from "shortid";
+import TsteA from "../components/TsteA";
+import Child from "../components/Child";
 
 const TemplateSelect = styled.div`
   position: relative;
@@ -113,88 +114,113 @@ const SurveyContainer = styled.div`
 `;
 
 const Surveying = () => {
+  // 객관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수 , splice로 삭제도 사용해볼것)
+
+  const [MultiplechoiceQ, setMultiplechoiceQ] = useState([]);
+  const [MultipleChoiceKey, setMultipleChoiceKey] = useState([]);
+  const [SubjectiveQuestionKey, setSubjectiveQuestionKey] = useState([]);
+  const [MyCode, setMyCode] = useState();
+  const [Title, setTitle] = useState();
+  const [DeadLine, setDeadLine] = useState();
+  const [SubjectiveQ, setSubjectiveQ] = useState();
+  const [MultiplechoiceQ_Option, setMultiplechoiceQ_Option] = useState();
+
+  const onMultipleChoiceAdd = useCallback(() => {
+    const shortkey = shortid.generate();
+    setMultipleChoiceKey(MultipleChoiceKey.concat(shortkey));
+  }, [MultipleChoiceKey]);
+
+  const onMultipleChoiceRemove = useCallback(
+    (e) => {
+      const target1 = e.currentTarget.getAttribute("data-multiplechoice-key");
+      const target2 = e.currentTarget.getAttribute("index");
+      setMultipleChoiceKey(MultipleChoiceKey.filter((data) => data !== target1));
+
+      // MultiplechoiceQ 배열속 질문 요소를 완전히 제거하려면  이방식으로 해야함
+      MultiplechoiceQ.splice(target2, 1);
+    },
+    [MultipleChoiceKey, MultiplechoiceQ]
+  );
+  console.log(MultipleChoiceKey);
   // 주관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수)
 
-  let [multipleChoiceKey, setMultipleChoiceKey] = useState([]);
-
-  let onMultipleChoiceAdd = useCallback(() => {
-    let shortkey = shortid.generate();
-    setMultipleChoiceKey(multipleChoiceKey.concat(shortkey));
-  }, [multipleChoiceKey]);
-
-  let onMultipleChoiceRemove = useCallback(
-    (e) => {
-      const target = e.currentTarget.getAttribute("data-MultipleChoice-key");
-      setMultipleChoiceKey(multipleChoiceKey.filter((data) => data !== target));
-    },
-    [multipleChoiceKey]
-  );
-
-  // 겍관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수)
-
-  let [SubjectiveQuestionKey, setSubjectiveQuestionKey] = useState([]);
-
-  let onSubjectiveQuestionAdd = useCallback(() => {
-    let shortkey = shortid.generate();
-
+  const onSubjectiveQuestionAdd = useCallback(() => {
+    const shortkey = shortid.generate();
     setSubjectiveQuestionKey(SubjectiveQuestionKey.concat(shortkey));
   }, [SubjectiveQuestionKey]);
 
-  let onSubjectiveQuestionRemove = useCallback(
+  const onSubjectiveQuestionRemove = useCallback(
     (e) => {
-      const target = e.currentTarget.getAttribute("data-SubjectiveQuestion-key");
+      const target = e.currentTarget.getAttribute("data-subjectivequestion-key");
       setSubjectiveQuestionKey(SubjectiveQuestionKey.filter((data) => data !== target));
     },
     [SubjectiveQuestionKey]
   );
 
-  let onFinish = () => {
-    Axios.get("http://localhost:8001/list", {}).then((res) => {
-      alert(` 설문 제출 시도 완료!`);
-      console.log(res.data[0].SERVEY_CONTENT, 556);
-    });
+  // 입력을 받아서 상태로 저장하는 모듈
+
+  const onMyCode = useCallback((e) => {
+    setMyCode(e.target.value);
+  }, []);
+
+  const onTitle = useCallback((e) => {
+    setTitle(e.target.value);
+  }, []);
+
+  const onDeadLine = useCallback((e) => {
+    setDeadLine(e._d);
+  }, []);
+
+  const onSubjectiveQ = useCallback((e) => {
+    setSubjectiveQ(e.target.value);
+  }, []);
+
+  // 설문지 데이터 전달하여 데이터 INSERT
+  const onSubmit = () => {
+    console.log(MyCode, Title, DeadLine, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option);
+    // console.log(MultiplechoiceQ, "MultiplechoiceQ", "최종적으로 보내는 데이터");
   };
 
   return (
-    <Form onFinish={onFinish} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
-      <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>
-        설문하기 (불러올껀 없고 다 작성후 서버에 데이터 전송해주기( 작성시간 , 마감시간 , 고유번호 , 설문제목 ,
-        번호별(설문+설문타입,객관식선택지,주관식은타입만체크)))
-      </h1>
-      <TemplateSelect>
-        <Button type="primary" htmlType="submit">
-          설문 작성 완료
-        </Button>
-      </TemplateSelect>
-      <br />
-      <br />
-      <br />
-
+    <Form onFinish={onSubmit} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
       <TemplateForm className="TemplateForm">
         <div className="TopForm">
           <TitleSurveyBox>
             <Input.TextArea
+              onChange={onMyCode}
               className="surveyTitle"
-              placeholder="설문 제목을 입력하세요"
-              style={{ fontSize: "1rem", width: "40vw", height: "37px", backgroundColor: "#181A1B", color: "white", border: "none" }}
-              maxLength={30}
+              placeholder="내가 만든 설문만 모아 볼수있는 비밀번호를 입력하세요 ( 10자 이내)"
+              style={{ fontSize: "1rem", width: "45vw", height: "37px", backgroundColor: "#181A1B", color: "white", border: "none" }}
+              maxLength={10}
             ></Input.TextArea>
-            <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "gray", height: "1px", width: "40vw", display: "block" }}></div>
+            <Input.TextArea
+              onChange={onTitle}
+              className="surveyTitle"
+              placeholder="설문 제목을 입력하세요 ( 50자)"
+              style={{ fontSize: "1rem", width: "55vw", height: "37px", marginTop: "1rem", backgroundColor: "#181A1B", color: "white", border: "none" }}
+              maxLength={50}
+            ></Input.TextArea>
+            <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "gray", height: "1px", width: "55vw", display: "block" }}></div>
             <br />
-            <Space direction="vertical" size={12}>
-              <DatePicker showTime placeholder="설문의 마감 날짜/시간" />
-            </Space>
+            <DatePicker showTime placeholder="설문의 마감 날짜/시간" onChange={onDeadLine} />
           </TitleSurveyBox>
         </div>
         <br />
         <br />
+        <br />
 
         <SurveyContainer>
-          {multipleChoiceKey.map((data) => (
-            <span key={data}>
-              <MultipleChoice data={data} />
-              <div onClick={onMultipleChoiceRemove} data-MultipleChoice-key={data}>
-                {data} , 제거버튼
+          {MultipleChoiceKey.map((MultipleChoiceelement, index) => (
+            <span key={MultipleChoiceelement}>
+              <MultipleChoice
+                key={MultipleChoiceelement}
+                index={index}
+                MultipleChoiceelement={MultipleChoiceelement}
+                MultiplechoiceQ={MultiplechoiceQ}
+                setMultiplechoiceQ={setMultiplechoiceQ}
+              />
+              <div onClick={onMultipleChoiceRemove} index={index} data-multiplechoice-key={MultipleChoiceelement}>
+                {MultipleChoiceelement} , 제거버튼
               </div>
             </span>
           ))}
@@ -202,8 +228,8 @@ const Surveying = () => {
           {/* important point 1. key를 입력하지 않으면 설문제거의 버그가 일어남 */}
           {SubjectiveQuestionKey.map((data) => (
             <span key={data}>
-              <SubjectiveQuestion data={data} />
-              <div onClick={onSubjectiveQuestionRemove} data-SubjectiveQuestion-key={data}>
+              <SubjectiveQuestion data={data} setSubjectiveQ={setSubjectiveQ} />
+              <div onClick={onSubjectiveQuestionRemove} data-subjectivequestion-key={data}>
                 {data} , 제거버튼
               </div>
             </span>
@@ -214,14 +240,24 @@ const Surveying = () => {
       <AddBtn>
         <div onClick={onMultipleChoiceAdd}>
           <PlusCircleOutlined style={{ marginRight: "10px", fontSize: "1rem" }} />
-          주관식 설문 추가
+          객관식 설문 추가
         </div>
 
         <div onClick={onSubjectiveQuestionAdd}>
           <PlusCircleOutlined style={{ marginRight: "10px", fontSize: "1rem" }} />
-          객관식 설문 추가
+          주관식 설문 추가
         </div>
       </AddBtn>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <TemplateSelect>
+        <Button type="primary" htmlType="submit">
+          설문 작성 완료
+        </Button>
+      </TemplateSelect>
     </Form>
   );
 };

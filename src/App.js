@@ -7,10 +7,9 @@ import styled from "styled-components";
 import Surveying from "./pages/Surveying";
 import SearchResult from "./components/SearchResult";
 import MySurvey from "./components/MySurvey";
-import SurveyPost from "./components/SurveyPost";
 import HomeMenu from "./components/HomeMenu";
 import axios from "axios";
-import SurveyPost2 from "./components/SurveyPost2";
+import SurveyPost from "./components/SurveyPost";
 import shortid from "shortid";
 import SignupForm from "./pages/SignupForm";
 import LoginForm from "./pages/LoginForm";
@@ -50,8 +49,8 @@ const App = () => {
         <Route path="/Writer_id/post" element={<MySurvey />} />
 
         {/* 이 컴포넌트를 상세페이지로 만들기 이때 주소별로 <SurveyPost/>를 인스턴스화 시켜야함 */}
+
         <Route path="/post/:id" element={<SurveyPost data={homeCardData} />} />
-        {/* <Routes path="/post/:id" element={<SurveyPost data={homeCardData} />} /> */}
       </Routes>
       <br />
       <br />

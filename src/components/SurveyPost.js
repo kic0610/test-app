@@ -7,7 +7,7 @@ import PostGraph from "./PostGraph";
 import { Button } from "antd";
 import shortid from "shortid";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 const ServeyForm = styled(Form)`
   position: relative;
@@ -80,30 +80,27 @@ const SurveyBox = styled.div`
     border: none;
   }
 `;
-const Ddiv = styled.div`
-  // 자식 css 범위 확인
-  border: 3px solid blue;
-  > * {
-    border: 2px solid red;
-  }
-`;
+const Ddiv = styled.div``;
 
 const SurveyPost = (data) => {
   let data1 = data.data;
 
-  console.log(data1, "FFinal");
-  return data1.map((item) => (
+  const { id } = useParams();
+
+  const postIndex = id - 1;
+
+  return (
     <Ddiv>
       <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
 
       <ServeyForm>
         <div className="TopForm">
-          {item.SERVEY_TITLE}
+          {data1[postIndex].SERVEY_TITLE}
 
           <Button type="primary">설문 작성 완료</Button>
         </div>
 
-        {item.SUBJECTIVE_QUESTION[0].map((data) => (
+        {data1[postIndex].SUBJECTIVE_QUESTION[0].map((data) => (
           <SurveyBox key={shortid.generate()}>
             <div className="surveyQuestion">{data}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
@@ -113,13 +110,13 @@ const SurveyPost = (data) => {
           </SurveyBox>
         ))}
 
-        {item.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
+        {data1[postIndex].MULTIPLECHOICE_QUESTION[0].map((data, index) => (
           <SurveyBox key={shortid.generate()}>
             <div className="surveyQuestion">{data}</div>
             <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
             <div className="answerObjectivity">
-              {item.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option) => (
+              {data1[postIndex].MULTIPLECHOICE_QUESTION_OPTION[index].map((Option) => (
                 <span key={shortid.generate()} className="answerObjectivityItem">
                   <input type="checkbox" id={Option} />
                   <label htmlFor={Option}>{Option}</label>
@@ -133,7 +130,7 @@ const SurveyPost = (data) => {
 
       <PostGraph />
     </Ddiv>
-  ));
+  );
 };
 
 export default SurveyPost;

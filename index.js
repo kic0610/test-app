@@ -11,14 +11,7 @@ const cors = require("cors");
 let corsOptions = { origin: "*", credential: true };
 app.use(cors(corsOptions));
 
-// app.get("/list", (req, res) => {
-//   const sqlQuery = "SELECT *FROM BOARD;";
-//   db.query(sqlQuery, (err, result) => {
-//     res.send(result);
-//     console.log(result, "성공", err);
-//   });
-// });
-
+// App.js에서 설문지 데이터를 조회하면 아래 콜백함수로 설문지들을 반환해줌
 app.get("/list", (req, res) => {
   const sqlQuery = "SELECT *FROM BOARD;";
   db.query(sqlQuery, (err, result) => {
