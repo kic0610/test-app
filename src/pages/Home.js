@@ -23,6 +23,7 @@ const HomeSection = styled.section`
 
 const Home = (data) => {
   let data1 = data.data;
+  console.log(data1, "data1");
 
   useEffect(() => {
     axios.get("http://localhost:8002/list").then((res) => {
