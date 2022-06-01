@@ -21,24 +21,15 @@ const HomeSection = styled.section`
   align-items: flex-start;
 `;
 
-const Home = (data) => {
-  let data1 = data.data;
-  console.log(data1, "data1");
-
-  useEffect(() => {
-    axios.get("http://localhost:8002/list").then((res) => {
-      console.log(res.data, "homejs");
-    });
-  }, []);
-
+const Home = ({ SurveyData }) => {
   return (
     // prop를 받아와 하나씩 넣어서
     <div>
       <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>홈 (설문post접근데이터 , 작성자명 , 설문제목을 썸네일로 구현 )</h1>
       <Clock />
       <HomeSection>
-        {data1.map((data) => (
-          <HomeCard key={shortid.generate()} data={data} />
+        {SurveyData.map((data) => (
+          <HomeCard key={shortid.generate()} cardData={data} />
         ))}
       </HomeSection>
     </div>

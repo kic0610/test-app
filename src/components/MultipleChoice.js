@@ -79,40 +79,59 @@ const SurveyBox = styled.div`
   }
 `;
 
-const MultipleChoice = (props, ref, index, MultipleChoiceelement, MultiplechoiceQ, setMultiplechoiceQ) => {
-  // 입력을 받아서 상태로 저장하는 모듈
-
-  let onChange = useCallback(
-    (e) => {
-      // props.setMultiplechoiceQ(props.MultiplechoiceQ.concat(e.target.value));
-      // props.setMultiplechoiceQ((props.MultiplechoiceQ[index] = e.target.value));
-      props.MultiplechoiceQ[props.index] = e.target.value;
-      console.log("e.target.value : ", e.target.value, "MultiplechoiceQ : ", props.MultiplechoiceQ, props.index);
-    },
-    [props.MultiplechoiceQ, props.index]
-  );
-
+const MultipleChoice = ({ index, MultipleChoiceeItem, MultiplechoiceQ, MultiplechoiceQ_Option }) => {
   // 설문 작성 완료가 눌려지면 발동
 
   let [option, setOption] = useState([]);
 
+  //    MultiplechoiceQ_Option객체의 key값을 배열로 사용하기위해 선택지 추가버튼을 처음 실행시에만 key값을 배열로 만들어줌 Propblem) 선택지 값이 추가될때매다 새배열을 매번 만들어 이전 값이 비는 문제를 해결
+
   let onOptionAdd = useCallback(() => {
+    if (option[0] === undefined) {
+      console.log("option 값없는 새삥 ", option);
+      MultiplechoiceQ_Option[index] = [];
+    } else {
+      console.log("옵션값 있음");
+    }
+
     let shortkey = shortid.generate();
     setOption(option.concat(shortkey));
-  }, [option]);
+    console.log(option);
+  }, [MultiplechoiceQ_Option, index, option]);
 
   let onOptionRemove = useCallback(
     (e) => {
       const target = e.currentTarget.getAttribute("data-option-key");
+      const optionindex = Number(e.currentTarget.getAttribute("optionindex"));
+      console.log(optionindex, "optionindex");
       setOption(option.filter((data) => data !== target));
+      MultiplechoiceQ_Option[index].splice(optionindex, 1);
     },
-    [option]
+    [MultiplechoiceQ_Option, index, option]
   );
 
-  // let onMultiplechoiceQ = useCallback((e) => props.setMultiplechoiceQ(MultiplechoiceQ.concat(e.target.value)), [MultiplechoiceQ]);
+  // 질문 입력을 받아서 상태로 저장하는 모듈
+
+  let onChange = useCallback(
+    (e) => {
+      MultiplechoiceQ[index] = e.target.value;
+      console.log("e.target.value : ", e.target.value, "MultiplechoiceQ : ", MultiplechoiceQ, index);
+    },
+    [MultiplechoiceQ, index]
+  );
+
+  let onOptionChange = useCallback(
+    (e) => {
+      // 그냥 getAttribute 허면 문자열로 index를 가져오기에 Number로 변환해줘야함
+      const optionindex = Number(e.currentTarget.getAttribute("optionindex"));
+      MultiplechoiceQ_Option[index][optionindex] = e.target.value;
+      console.log("MultiplechoiceQ_Option : ", MultiplechoiceQ_Option, index, optionindex);
+    },
+    [MultiplechoiceQ_Option, index]
+  );
 
   return (
-    <SurveyBox key={MultipleChoiceelement} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
+    <SurveyBox style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
       <Input.TextArea className="multipleChoiceTitle" onChange={onChange} placeholder="설문을 입력하세요"></Input.TextArea>
       <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
@@ -123,15 +142,13 @@ const MultipleChoice = (props, ref, index, MultipleChoiceelement, Multiplechoice
 
       <br />
 
-      <div onClick={() => props.setMultiplechoiceQ("data from child")}>send data to parent</div>
-
       <div className="answerObjectivitybox">
-        {option.map((data2) => (
-          <span className="answerObjectivityItem" key={data2}>
-            <span onClick={onOptionRemove} data-option-key={data2}>
+        {option.map((data2, index) => (
+          <span key={data2} className="answerObjectivityItem">
+            <span onClick={onOptionRemove} index={index} data-option-key={data2} optionindex={index}>
               <MinusCircleOutlined style={{ marginRight: "5px", cursor: "pointer" }} />
             </span>
-            <Input.TextArea className="OptionForm" placeholder="선택지를 입력"></Input.TextArea>
+            <Input.TextArea className="OptionForm" onChange={onOptionChange} optionindex={index} placeholder="선택지를 입력"></Input.TextArea>
           </span>
         ))}
       </div>

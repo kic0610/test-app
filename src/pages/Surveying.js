@@ -116,14 +116,17 @@ const SurveyContainer = styled.div`
 const Surveying = () => {
   // 객관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수 , splice로 삭제도 사용해볼것)
 
-  const [MultiplechoiceQ, setMultiplechoiceQ] = useState([]);
   const [MultipleChoiceKey, setMultipleChoiceKey] = useState([]);
   const [SubjectiveQuestionKey, setSubjectiveQuestionKey] = useState([]);
+
+  const [MultiplechoiceQ, setMultiplechoiceQ] = useState([]);
+  const [SubjectiveQ, setSubjectiveQ] = useState([]);
+
+  const [MultiplechoiceQ_Option, setMultiplechoiceQ_Option] = useState({});
+
   const [MyCode, setMyCode] = useState();
   const [Title, setTitle] = useState();
   const [DeadLine, setDeadLine] = useState();
-  const [SubjectiveQ, setSubjectiveQ] = useState();
-  const [MultiplechoiceQ_Option, setMultiplechoiceQ_Option] = useState();
 
   const onMultipleChoiceAdd = useCallback(() => {
     const shortkey = shortid.generate();
@@ -132,16 +135,15 @@ const Surveying = () => {
 
   const onMultipleChoiceRemove = useCallback(
     (e) => {
+      // 아래의 MultiplechoiceQ 배열속 질문 요소를 완전히 제거하려면 filter가 아닌 이방식으로 해야함
       const target1 = e.currentTarget.getAttribute("data-multiplechoice-key");
       const target2 = e.currentTarget.getAttribute("index");
       setMultipleChoiceKey(MultipleChoiceKey.filter((data) => data !== target1));
-
-      // MultiplechoiceQ 배열속 질문 요소를 완전히 제거하려면  이방식으로 해야함
       MultiplechoiceQ.splice(target2, 1);
     },
     [MultipleChoiceKey, MultiplechoiceQ]
   );
-  console.log(MultipleChoiceKey);
+
   // 주관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수)
 
   const onSubjectiveQuestionAdd = useCallback(() => {
@@ -177,7 +179,7 @@ const Surveying = () => {
 
   // 설문지 데이터 전달하여 데이터 INSERT
   const onSubmit = () => {
-    console.log(MyCode, Title, DeadLine, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option);
+    console.log(MyCode, Title, DeadLine, SubjectiveQ, MultiplechoiceQ, "MultiplechoiceQ_Option:", MultiplechoiceQ_Option);
     // console.log(MultiplechoiceQ, "MultiplechoiceQ", "최종적으로 보내는 데이터");
   };
 
@@ -210,27 +212,27 @@ const Surveying = () => {
         <br />
 
         <SurveyContainer>
-          {MultipleChoiceKey.map((MultipleChoiceelement, index) => (
-            <span key={MultipleChoiceelement}>
+          {MultipleChoiceKey.map((MultipleChoiceeItem, index) => (
+            <span key={MultipleChoiceeItem}>
               <MultipleChoice
-                key={MultipleChoiceelement}
+                key={MultipleChoiceeItem}
                 index={index}
-                MultipleChoiceelement={MultipleChoiceelement}
+                MultipleChoiceeItem={MultipleChoiceeItem}
                 MultiplechoiceQ={MultiplechoiceQ}
-                setMultiplechoiceQ={setMultiplechoiceQ}
+                MultiplechoiceQ_Option={MultiplechoiceQ_Option}
               />
-              <div onClick={onMultipleChoiceRemove} index={index} data-multiplechoice-key={MultipleChoiceelement}>
-                {MultipleChoiceelement} , 제거버튼
+              <div onClick={onMultipleChoiceRemove} index={index} data-multiplechoice-key={MultipleChoiceeItem}>
+                {MultipleChoiceeItem} , 제거버튼
               </div>
             </span>
           ))}
 
           {/* important point 1. key를 입력하지 않으면 설문제거의 버그가 일어남 */}
-          {SubjectiveQuestionKey.map((data) => (
-            <span key={data}>
-              <SubjectiveQuestion data={data} setSubjectiveQ={setSubjectiveQ} />
-              <div onClick={onSubjectiveQuestionRemove} data-subjectivequestion-key={data}>
-                {data} , 제거버튼
+          {SubjectiveQuestionKey.map((SubjectiveQuestionItem, index) => (
+            <span key={SubjectiveQuestionItem}>
+              <SubjectiveQuestion SubjectiveQuestionItem={SubjectiveQuestionItem} index={index} SubjectiveQ={SubjectiveQ} />
+              <div onClick={onSubjectiveQuestionRemove} data-subjectivequestion-key={SubjectiveQuestionItem}>
+                {SubjectiveQuestionItem} , 제거버튼
               </div>
             </span>
           ))}

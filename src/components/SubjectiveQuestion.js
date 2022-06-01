@@ -67,10 +67,20 @@ const SurveyBox = styled.div`
   }
 `;
 
-const SubjectiveQuestion = (data) => {
+const SubjectiveQuestion = ({ SubjectiveQuestionItem, index, SubjectiveQ }) => {
+  console.log(SubjectiveQuestionItem, index, SubjectiveQ, "SubjectiveQuestion.js");
+
+  let onChange = useCallback(
+    (e) => {
+      SubjectiveQ[index] = e.target.value;
+      console.log("e.target.value : ", e.target.value, "SubjectiveQ : ", SubjectiveQ, index);
+    },
+    [SubjectiveQ, index]
+  );
+
   return (
-    <SurveyBox key={data}>
-      <Input.TextArea className="SubjectiveQuestionTitle" placeholder="이곳에 질의할 설문을 입력하세요"></Input.TextArea>
+    <SurveyBox>
+      <Input.TextArea className="SubjectiveQuestionTitle" onChange={onChange} placeholder="이곳에 질의할 설문을 입력하세요"></Input.TextArea>
       <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
       <div className="AnswerTypeSelect">

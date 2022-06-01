@@ -29,9 +29,8 @@ const App = () => {
   let [homeCardData, setHomeCardData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8002/list").then((res) => {
+    axios.get("http://localhost:8002/boardlist").then((res) => {
       setHomeCardData(res.data);
-      console.log(res.data, "homeCardData");
     });
   }, []);
 
@@ -39,7 +38,7 @@ const App = () => {
     <div style={{ minHeight: "100vh", backgroundColor: "Background" }}>
       <HomeMenu />
       <Routes>
-        <Route exact path="/" element={<Home data={homeCardData} />} />
+        <Route exact path="/" element={<Home SurveyData={homeCardData} />} />
         <Route path="/surveying" element={<Surveying />} />
         {/* 나중에 구현 */}
         {/* <Route path="/signup" element={<SignupForm />} /> */}
@@ -50,7 +49,7 @@ const App = () => {
 
         {/* 이 컴포넌트를 상세페이지로 만들기 이때 주소별로 <SurveyPost/>를 인스턴스화 시켜야함 */}
 
-        <Route path="/post/:id" element={<SurveyPost data={homeCardData} />} />
+        <Route path="/post/:BOARD_ID" element={<SurveyPost />} />
       </Routes>
       <br />
       <br />

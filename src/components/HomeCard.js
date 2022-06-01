@@ -23,9 +23,7 @@ const CardTitle = styled.div`
   padding: 1rem;
 `;
 
-const HomeCard = (data) => {
-  let cardData = data.data;
-
+const HomeCard = ({ cardData }) => {
   let timeSource = cardData.SERVEY_REGISTER_DATE;
   let dateObj = new Date(timeSource);
   let timeString_KR = dateObj.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
