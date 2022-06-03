@@ -99,6 +99,8 @@ const SurveyPost = () => {
     fetchData();
   }, []);
 
+  console.log(postItem, 999);
+
   if (postItem !== null) {
     return (
       <Ddiv>

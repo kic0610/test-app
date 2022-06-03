@@ -1,6 +1,6 @@
 import { Input, Form } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { DatePicker } from "antd";
 import { useCallback } from "react";
@@ -9,8 +9,6 @@ import axios from "axios";
 import shortid from "shortid";
 import MultipleChoice from "../components/MultipleChoice";
 import SubjectiveQuestion from "../components/SubjectiveQuestion";
-import TsteA from "../components/TsteA";
-import Child from "../components/Child";
 
 const TemplateSelect = styled.div`
   position: relative;

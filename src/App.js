@@ -35,7 +35,7 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "Background" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#236C4E" }}>
       <HomeMenu />
       <Routes>
         <Route exact path="/" element={<Home SurveyData={homeCardData} />} />
