@@ -34,6 +34,8 @@ const App = () => {
     });
   }, []);
 
+  console.log(homeCardData, "app");
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#236C4E" }}>
       <HomeMenu />
@@ -45,7 +47,7 @@ const App = () => {
         {/* <Route path="/login" element={<LoginForm />} /> */}
 
         <Route path="/search/query" element={<SearchResult />} />
-        <Route path="/Writer_id/post" element={<MySurvey />} />
+        <Route path="/Writer_id/post" element={<MySurvey SurveyData={homeCardData} />} />
 
         {/* 이 컴포넌트를 상세페이지로 만들기 이때 주소별로 <SurveyPost/>를 인스턴스화 시켜야함 */}
 

@@ -285,7 +285,7 @@ const Surveying = () => {
             <Input.TextArea
               onChange={onMyServeyKey}
               className="surveyTitle"
-              placeholder="내가 만든 설문만 모아 볼수있는 비밀번호를 입력하세요 ( 10자 이내)"
+              placeholder="내가 만든 설문만 모아 볼수있는 개인코드를 입력하세요 ( 10자 이내)"
               style={{ fontSize: "1rem", width: "45vw", height: "37px", backgroundColor: "#181A1B", color: "white", border: "none" }}
               maxLength={10}
             ></Input.TextArea>

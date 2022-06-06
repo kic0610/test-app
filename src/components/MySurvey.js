@@ -1,15 +1,68 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
 import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { Input, Button } from "antd";
+
+const MyKeyInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  position: relative;
+  width: 50vw;
+  height: 15vh;
+
+  background-color: #024059;
+
+  left: 50%;
+  top: 5vh;
+  transform: translateX(-50%);
+
+  text-align: center;
+
+  .MySurveyExplanation {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .MySurveyCode {
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: #181a1b;
+
+    width: 100%;
+    height: 40%;
+    top: 6px;
+  }
+
+  .MySurveyCodeInput {
+    margin-left: -14.2%;
+    font-size: 1rem;
+    width: 40%;
+    height: 100%;
+    background-color: #181a1b;
+    color: white;
+    border: none;
+    -ms-overflow-style: none;
+  }
+  /* 개인코드 입력창 스크롤바 제거 */
+  .MySurveyCodeInput::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const MyPostSection = styled.section`
   position: relative;
   width: 70vw;
   height: auto;
   min-height: 73vh;
-  top: 0%;
+  top: 10vh;
   left: 50%;
   transform: translateX(-50%);
 `;
@@ -52,11 +105,14 @@ const PageBTN = styled.div`
   text-align: center;
 `;
 
-const MySurvey = () => {
-  let [mySurvey, setMySurvey] = useState([
-    { 설문제목: "설문제목1", 게시글작성날짜및시간: "Sat May 21 2022 01:44:33", key: "OWEFQRF" },
-    { 설문제목: "설문제목2", 게시글작성날짜및시간: "Sat May 21 2022 12:55:46", key: "PBMFOGU" },
-  ]);
+const MySurvey = ({ SurveyData }) => {
+  let [mySurvey, setMySurvey] = useState([]);
+
+  // 입력을 받아서 상태로 저장하는 모듈
+  let [state, setState] = useState(null);
+  let onInput = useCallback((e) => {
+    setState(e.target.value);
+  }, []);
 
   //게시물 클릭시 게시물고유 id를통해 페이지 전환하기
   let postClick = (e) => {
@@ -64,18 +120,41 @@ const MySurvey = () => {
     console.log(e.currentTarget.getAttribute("data-post-key"));
   };
 
+  let onSearch = useCallback(() => {
+    const found = SurveyData.filter((element) => element.MY_SERVEY_KEY == state);
+    setMySurvey(found);
+  }, [SurveyData, state]);
+
+  console.log(state);
+
   return (
     <div>
-      <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>
-        MY 설문목록 (로그인 여부 , 자신 id로 작성된 post접근데이터 , (설문제목, 작성시간, 작성자 , 마감시간) )
-      </h1>
+      <MyKeyInput>
+        <span className="MySurveyExplanation">설문지를 작성할때 입력한 개인코드를 입력하면 자신의 설문을 모아볼수있습니다</span>
+        <div className="MySurveyCode">
+          <Input.TextArea
+            className="MySurveyCodeInput"
+            value={state}
+            onChange={onInput}
+            placeholder="내 설문지 코드를 이곳에 입력하세요"
+            maxLength={10}
+          ></Input.TextArea>
+          <Button onClick={onSearch} type="primary" style={{ height: "99%" }}>
+            내 설문 찾기
+          </Button>
+        </div>
+      </MyKeyInput>
+
       <MyPostSection>
-        {mySurvey.map((mySurvey) => (
-          <MyPostItem>
-            <MyPostItemTitle key={mySurvey.key} onClick={postClick} data-post-key={mySurvey.key}>
-              {mySurvey.설문제목}
+        {mySurvey.map((myItem, index) => (
+          <MyPostItem key={index}>
+            <MyPostItemTitle onClick={postClick} data-post-key={123}>
+              {myItem.SERVEY_TITLE}
             </MyPostItemTitle>
-            <MyPostItemDate>{mySurvey.게시글작성날짜및시간}</MyPostItemDate>
+            <MyPostItemDate>
+              <span style={{ color: "#E6F7FF" }}>작성시간 :</span> {new Date(myItem.SERVEY_REGISTER_DATE).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
+            </MyPostItemDate>
+            {/* <MyPostItemDate>{myItem.SERVEY_REGISTER_DATE}</MyPostItemDate> */}
           </MyPostItem>
         ))}
       </MyPostSection>
