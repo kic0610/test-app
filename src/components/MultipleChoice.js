@@ -88,10 +88,8 @@ const MultipleChoice = ({ index, MultipleChoiceeItem, MultiplechoiceQ, Multiplec
 
   let onOptionAdd = useCallback(() => {
     if (option[0] === undefined) {
-      console.log("option 값없는 새삥 ", option);
       MultiplechoiceQ_Option[index] = [];
     } else {
-      console.log("옵션값 있음");
     }
 
     let shortkey = shortid.generate();
@@ -103,7 +101,7 @@ const MultipleChoice = ({ index, MultipleChoiceeItem, MultiplechoiceQ, Multiplec
     (e) => {
       const target = e.currentTarget.getAttribute("data-option-key");
       const optionindex = Number(e.currentTarget.getAttribute("optionindex"));
-      console.log(optionindex, "optionindex");
+
       setOption(option.filter((data) => data !== target));
       MultiplechoiceQ_Option[index].splice(optionindex, 1);
     },
@@ -115,7 +113,6 @@ const MultipleChoice = ({ index, MultipleChoiceeItem, MultiplechoiceQ, Multiplec
   let onChange = useCallback(
     (e) => {
       MultiplechoiceQ[index] = e.target.value;
-      console.log("e.target.value : ", e.target.value, "MultiplechoiceQ : ", MultiplechoiceQ, index);
     },
     [MultiplechoiceQ, index]
   );
@@ -125,7 +122,6 @@ const MultipleChoice = ({ index, MultipleChoiceeItem, MultiplechoiceQ, Multiplec
       // 그냥 getAttribute 허면 문자열로 index를 가져오기에 Number로 변환해줘야함
       const optionindex = Number(e.currentTarget.getAttribute("optionindex"));
       MultiplechoiceQ_Option[index][optionindex] = e.target.value;
-      console.log("MultiplechoiceQ_Option : ", MultiplechoiceQ_Option, index, optionindex);
     },
     [MultiplechoiceQ_Option, index]
   );

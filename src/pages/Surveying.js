@@ -1,6 +1,6 @@
 import { Input, Form } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { DatePicker } from "antd";
 import { useCallback } from "react";
@@ -26,6 +26,53 @@ const TemplateSelect = styled.div`
     width: 160px;
     height: 55px;
     font-size: 1.2rem;
+  }
+`;
+
+const FinalSubmit = styled.div`
+  position: fixed;
+
+  display: none;
+  flex-direction: column;
+
+  opacity: 0;
+  transition: all 0.3s;
+
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  background-color: rgba(128, 128, 128, 0.8);
+  width: 30%;
+  height: 35%;
+
+  left: 50%;
+  transform: translateX(-50%);
+  top: 35%;
+
+  border-radius: 7%;
+
+  z-index: 99;
+
+  .close {
+    position: absolute;
+    color: #ffffff;
+    right: 7%;
+    top: 8%;
+    width: 7%;
+    height: 14%;
+    text-align: center;
+    border-radius: 5%;
+    background-color: #202124;
+    cursor: pointer;
+  }
+
+  .text {
+    position: relative;
+    top: 12%;
   }
 `;
 
@@ -112,6 +159,19 @@ const SurveyContainer = styled.div`
 `;
 
 const Surveying = () => {
+  const SubmitModal = useRef(null);
+
+  function DeadLinetodatetime(date) {
+    let 년 = date.getFullYear();
+    let 월 = date.getMonth() + 1;
+    let 일 = date.getDate();
+    let 시 = date.getHours();
+    let 분 = date.getMinutes();
+    let 초 = date.getSeconds();
+
+    return `${년}-${월}-${일} ${시}:${분}:${초}`;
+  }
+
   // 객관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수 , splice로 삭제도 사용해볼것)
 
   const [MultipleChoiceKey, setMultipleChoiceKey] = useState([]);
@@ -122,7 +182,7 @@ const Surveying = () => {
 
   const [MultiplechoiceQ_Option, setMultiplechoiceQ_Option] = useState({});
 
-  const [MyCode, setMyCode] = useState();
+  const [MyServeyKey, setMyServeyKey] = useState();
   const [Title, setTitle] = useState();
   const [DeadLine, setDeadLine] = useState();
 
@@ -159,8 +219,8 @@ const Surveying = () => {
 
   // 입력을 받아서 상태로 저장하는 모듈
 
-  const onMyCode = useCallback((e) => {
-    setMyCode(e.target.value);
+  const onMyServeyKey = useCallback((e) => {
+    setMyServeyKey(e.target.value);
   }, []);
 
   const onTitle = useCallback((e) => {
@@ -168,26 +228,62 @@ const Surveying = () => {
   }, []);
 
   const onDeadLine = useCallback((e) => {
-    setDeadLine(e._d);
+    // setDeadLine(e._d);
+    setDeadLine(DeadLinetodatetime(e._d));
   }, []);
 
-  const onSubjectiveQ = useCallback((e) => {
-    setSubjectiveQ(e.target.value);
-  }, []);
+  let ModalOpen = () => {
+    SubmitModal.current.style.display = "flex";
 
-  // 설문지 데이터 전달하여 데이터 INSERT
-  const onSubmit = () => {
-    console.log(MyCode, Title, DeadLine, SubjectiveQ, MultiplechoiceQ, "MultiplechoiceQ_Option:", MultiplechoiceQ_Option);
-    // console.log(MultiplechoiceQ, "MultiplechoiceQ", "최종적으로 보내는 데이터");
+    setTimeout(() => {
+      SubmitModal.current.style.opacity = 1;
+    }, 200);
+  };
+
+  let ModalClose = () => {
+    SubmitModal.current.style.opacity = 0;
+    setTimeout(() => {
+      SubmitModal.current.style.display = "none";
+    }, 300);
+  };
+
+  let onSubmit = async () => {
+    await axios
+      .post("http://localhost:8002/insert", {
+        MyServeyKey: MyServeyKey,
+        Title: Title,
+        SubjectiveQ: SubjectiveQ,
+        MultiplechoiceQ: MultiplechoiceQ,
+        MultiplechoiceQ_Option: MultiplechoiceQ_Option,
+        DeadLine: DeadLine,
+      })
+      .then((res) => {})
+      .catch((e) => {
+        console.error(e, "e");
+      })
+      .finally(() => {
+        window.location.replace("/");
+      });
   };
 
   return (
-    <Form onFinish={onSubmit} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
+    <Form onFinish={ModalOpen} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
+      <FinalSubmit ref={SubmitModal} className="finalSubmit">
+        <span className="close" onClick={ModalClose}>
+          X
+        </span>
+        <div className="text">
+          빈칸이나 잘못작성한 부분이 있는지 확인후 <br /> 작성 완료 버튼을 눌러주세요.
+        </div>
+        <Button type="primary" onClick={onSubmit}>
+          작성 완료
+        </Button>
+      </FinalSubmit>
       <TemplateForm className="TemplateForm">
         <div className="TopForm">
           <TitleSurveyBox>
             <Input.TextArea
-              onChange={onMyCode}
+              onChange={onMyServeyKey}
               className="surveyTitle"
               placeholder="내가 만든 설문만 모아 볼수있는 비밀번호를 입력하세요 ( 10자 이내)"
               style={{ fontSize: "1rem", width: "45vw", height: "37px", backgroundColor: "#181A1B", color: "white", border: "none" }}

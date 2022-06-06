@@ -68,12 +68,9 @@ const SurveyBox = styled.div`
 `;
 
 const SubjectiveQuestion = ({ SubjectiveQuestionItem, index, SubjectiveQ }) => {
-  console.log(SubjectiveQuestionItem, index, SubjectiveQ, "SubjectiveQuestion.js");
-
   let onChange = useCallback(
     (e) => {
       SubjectiveQ[index] = e.target.value;
-      console.log("e.target.value : ", e.target.value, "SubjectiveQ : ", SubjectiveQ, index);
     },
     [SubjectiveQ, index]
   );

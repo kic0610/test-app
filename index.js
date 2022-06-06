@@ -8,10 +8,17 @@ const db = mysql.createPool({ host: "localhost", user: "root", password: "6819et
 
 // 서버단에서 cors 처리하는 방법(express)
 const cors = require("cors");
-let corsOptions = { origin: "*", credential: true };
+let corsOptions = { origin: "*", credential: true, methods: "GET,HEAD,PUT,PATCH,POST,DELETE" };
 app.use(cors(corsOptions));
 
-// App.js에서 설문지 데이터를 조회하면 아래 콜백함수로 설문지들을 반환해줌
+// import 하는 부분
+const bodyParser = require("body-parser");
+
+// 아랫부분 적당한 위치에 추가
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// App.js에서 설문지 데이터목록을 조회함 (Home.js에서 사용)
 app.get("/boardlist", (req, res) => {
   const sqlQuery = "SELECT *FROM BOARD;";
   db.query(sqlQuery, (err, result) => {
@@ -24,7 +31,7 @@ app.get("/boardlist", (req, res) => {
   });
 });
 
-// ? prepare statement를 사용하여 변수처럼 사용하였다
+// SurveyPost.js에서 설문지 데이터를 조회함 (SurveyPost.js에서 사용)
 app.get("/boardContent", (req, res) => {
   // sql query 문
   const sql = "SELECT * FROM BOARD WHERE `BOARD_ID` = ?;";
@@ -39,19 +46,47 @@ app.get("/boardContent", (req, res) => {
   });
 });
 
-// // ? prepare statement를 사용하여 변수처럼 사용하였다
-// app.get("/boardContent", (req, res) => {
-//   // sql query 문
-//   const sql = "SELECT BOARD_ID, *FROM `BOARD` WHERE `BOARD_ID` = ?;";
-//   // 전달받은 parameter 값
-//   const params = req.query.BOARD_ID;
-//   db.query(sql, params, (err, data) => {
-//     if (!err) {
-//       // res.send(data);
-//       console.log(data);
-//     } else {
-//       res.send(err);
-//     }
+// surveying.js에서 설문지 데이터를 작성하여 데이터베이스로 저장 (Surveying.js에서 사용)
+app.post("/insert", (req, res) => {
+  // let MyServeyKey = req.body.MyServeyKey.replace("'", "\\'");
+  let MyServeyKey = req.body.MyServeyKey;
+  let Title = req.body.Title;
+  let SubjectiveQ = { 0: req.body.SubjectiveQ };
+  let SubjectiveQSTR = JSON.stringify(SubjectiveQ);
+  let MultiplechoiceQ = { 0: req.body.MultiplechoiceQ };
+  let MultiplechoiceQSTR = JSON.stringify(MultiplechoiceQ);
+  let MultiplechoiceQ_Option = req.body.MultiplechoiceQ_Option;
+  let MultiplechoiceQ_OptionSTR = JSON.stringify(MultiplechoiceQ_Option);
+  let DeadLine = req.body.DeadLine;
+  console.log(typeof SubjectiveQSTR, SubjectiveQSTR);
+  // console.log(MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine);
+
+  // const sqlQuery = `insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values(?, ?, \'{ "0": ["사탕VS과자1","웰빙vs인스턴스1"]}\', \'{ "0": ["가고싶은 여행지를 선택지로 선택1","가장 좋아하는 음악장르 선택지로 선택!1"]}\', \'{ "0": ["프랭스1", "영국", "대만", "일본", "제주도"], "1": ["발라드1", "재즈", "어쿠스틱", "락", "트로트"] }\', \'2022-06-09 00:00:00\');`;
+  const sqlQuery = `insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values(?, ?, ?, ?, ?, ?);`;
+  // const values = [MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine];
+  const values = [MyServeyKey, Title, SubjectiveQSTR, MultiplechoiceQSTR, MultiplechoiceQ_OptionSTR, DeadLine];
+  db.query(sqlQuery, values, (err, result) => {
+    res.send(result);
+    // console.log("err", err, "result", result);
+  });
+});
+
+// surveying.js에서 설문지 데이터를 작성하여 데이터베이스로 저장 (Surveying.js에서 사용)
+// app.post("/insert", (req, res) => {
+//   let MyServeyKey = req.body.MyServeyKey;
+//   let Title = req.body.Title;
+//   let SubjectiveQ = req.body.SubjectiveQ;
+//   let MultiplechoiceQ = req.body.MultiplechoiceQ;
+//   let MultiplechoiceQ_Option = req.body.MultiplechoiceQ_Option;
+//   let DeadLine = req.body.DeadLine;
+
+//   console.log(MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine);
+//   const sqlQuery =
+//     "insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values (?,?,?,?,?,?);";
+//   const values = [MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine];
+//   db.query(sqlQuery, values, (err, result) => {
+//     res.send(result);
+//     console.log("err", err, "result", result);
 //   });
 // });
 

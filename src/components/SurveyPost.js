@@ -66,7 +66,7 @@ const SurveyBox = styled.div`
     justify-content: space-around;
     align-items: center;
     margin-top: 7.5px;
-    margin-bottom: 7.5px;
+    margin-bottom: 15px;
   }
 
   .ant-input {
