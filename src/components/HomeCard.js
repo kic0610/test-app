@@ -32,7 +32,14 @@ const HomeCard = ({ cardData }) => {
     <Link to={`/post/${cardData.BOARD_ID}`}>
       <Card
         hoverable
-        style={{ width: 270, height: "400px", border: "1.5px solid black", borderRadius: "4%", backgroundColor: "#FDFDFD" }}
+        style={{
+          width: 270,
+          height: "400px",
+          border: "1.5px solid black",
+          borderRadius: "4%",
+          backgroundColor: "#FDFDFD",
+          boxShadow: "0 10px 24px -4px rgba(0,0,0,1)",
+        }}
         cover={<CardTitle style={{ border: "0.5px solid black", borderRadius: "4%", backgroundColor: getRandomColor() }}>{cardData.SERVEY_TITLE}</CardTitle>}
       >
         <Card.Meta title={`${timeString_KR} 작성`} />

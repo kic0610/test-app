@@ -43,7 +43,8 @@ app.get("/boardContent", (req, res) => {
     result.map((item) => (item.MULTIPLECHOICE_QUESTION = JSON.parse(item.MULTIPLECHOICE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION_OPTION = JSON.parse(item.MULTIPLECHOICE_QUESTION_OPTION)));
     res.send(result);
-    console.log(result);
+    console.log(result, " <-result 완료되었습니다.  ");
+    console.log(err, "<- err 에러입니다.");
   });
 });
 
@@ -59,37 +60,16 @@ app.post("/insert", (req, res) => {
   let MultiplechoiceQ_Option = req.body.MultiplechoiceQ_Option;
   let MultiplechoiceQ_OptionSTR = JSON.stringify(MultiplechoiceQ_Option);
   let DeadLine = req.body.DeadLine;
-  console.log(typeof SubjectiveQSTR, SubjectiveQSTR);
-  // console.log(MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine);
 
-  // const sqlQuery = `insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values(?, ?, \'{ "0": ["사탕VS과자1","웰빙vs인스턴스1"]}\', \'{ "0": ["가고싶은 여행지를 선택지로 선택1","가장 좋아하는 음악장르 선택지로 선택!1"]}\', \'{ "0": ["프랭스1", "영국", "대만", "일본", "제주도"], "1": ["발라드1", "재즈", "어쿠스틱", "락", "트로트"] }\', \'2022-06-09 00:00:00\');`;
   const sqlQuery = `insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values(?, ?, ?, ?, ?, ?);`;
-  // const values = [MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine];
+
   const values = [MyServeyKey, Title, SubjectiveQSTR, MultiplechoiceQSTR, MultiplechoiceQ_OptionSTR, DeadLine];
   db.query(sqlQuery, values, (err, result) => {
     res.send(result);
-    // console.log("err", err, "result", result);
+    console.log(result, " <-result 완료되었습니다.  ");
+    console.log(err, "<- err 에러입니다.");
   });
 });
-
-// surveying.js에서 설문지 데이터를 작성하여 데이터베이스로 저장 (Surveying.js에서 사용)
-// app.post("/insert", (req, res) => {
-//   let MyServeyKey = req.body.MyServeyKey;
-//   let Title = req.body.Title;
-//   let SubjectiveQ = req.body.SubjectiveQ;
-//   let MultiplechoiceQ = req.body.MultiplechoiceQ;
-//   let MultiplechoiceQ_Option = req.body.MultiplechoiceQ_Option;
-//   let DeadLine = req.body.DeadLine;
-
-//   console.log(MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine);
-//   const sqlQuery =
-//     "insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values (?,?,?,?,?,?);";
-//   const values = [MyServeyKey, Title, SubjectiveQ, MultiplechoiceQ, MultiplechoiceQ_Option, DeadLine];
-//   db.query(sqlQuery, values, (err, result) => {
-//     res.send(result);
-//     console.log("err", err, "result", result);
-//   });
-// });
 
 // PORT번호로 접속이 성공된다면 구현부의 콜백함수를 실행시킨다
 app.listen(PORT, () => {
