@@ -89,7 +89,7 @@ const SurveyPost = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const post = await axios.get("http://localhost:8002/boardContent", {
+      const post = await axios.get("http://localhost:8003/boardContent", {
         params: {
           BOARD_ID: BOARD_ID,
         },
@@ -98,8 +98,6 @@ const SurveyPost = () => {
     }
     fetchData();
   }, []);
-
-  console.log(postItem, 999);
 
   if (postItem !== null) {
     return (
@@ -113,16 +111,6 @@ const SurveyPost = () => {
             <Button type="primary">설문 작성 완료</Button>
           </div>
 
-          {postItem.SUBJECTIVE_QUESTION[0].map((data) => (
-            <SurveyBox key={shortid.generate()}>
-              <div className="surveyQuestion">{data}</div>
-              <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
-
-              <Input.TextArea placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
-              <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
-            </SurveyBox>
-          ))}
-
           {postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
             <SurveyBox key={shortid.generate()}>
               <div className="surveyQuestion">{data}</div>
@@ -134,6 +122,16 @@ const SurveyPost = () => {
                     <input type="checkbox" id={Option} />
                     <label htmlFor={Option}>{Option}</label>
                   </span>
+                ))}
+
+                {postItem.SUBJECTIVE_QUESTION[0].map((data) => (
+                  <SurveyBox key={shortid.generate()}>
+                    <div className="surveyQuestion">{data}</div>
+                    <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
+
+                    <Input.TextArea placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
+                    <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
+                  </SurveyBox>
                 ))}
               </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>

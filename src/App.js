@@ -29,12 +29,10 @@ const App = () => {
   let [homeCardData, setHomeCardData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8002/boardlist").then((res) => {
+    axios.get("http://localhost:8003/boardlist").then((res) => {
       setHomeCardData(res.data);
     });
   }, []);
-
-  console.log(homeCardData, "app");
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#236C4E" }}>

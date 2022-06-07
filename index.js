@@ -3,8 +3,8 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 
-const PORT = process.env.port || 8002;
-const db = mysql.createPool({ host: "localhost", user: "root", password: "6819et", database: "capstoneDB" });
+const PORT = process.env.port || 8003;
+const db = mysql.createPool({ host: "localhost", user: "root", password: "1234", database: "capstoneDB" });
 
 // 서버단에서 cors 처리하는 방법(express)
 const cors = require("cors");
@@ -22,12 +22,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/boardlist", (req, res) => {
   const sqlQuery = "SELECT *FROM BOARD;";
   db.query(sqlQuery, (err, result) => {
-    // let profile = result.map((item) => JSON.parse(item.profile));
+    console.log(result, " <-result 완료되었습니다.  ");
+    console.log(err, "<- err 에러입니다.");
+
     result.map((item) => (item.SUBJECTIVE_QUESTION = JSON.parse(item.SUBJECTIVE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION = JSON.parse(item.MULTIPLECHOICE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION_OPTION = JSON.parse(item.MULTIPLECHOICE_QUESTION_OPTION)));
     res.send(result);
-    console.log("완료되었습니다. 에러는 => ", result);
   });
 });
 
