@@ -4,7 +4,8 @@ const app = express();
 const mysql = require("mysql");
 
 const PORT = process.env.port || 8003;
-const db = mysql.createPool({ host: "localhost", user: "root", password: "6819et", database: "capstoneDB" });
+const db = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et78", database: "capstoneDB" });
+// const db = mysql.createPool({ host: "localhost", user: "root", password: "6819et78", database: "capstoneDB" });
 
 // 서버단에서 cors 처리하는 방법(express)
 const cors = require("cors");
