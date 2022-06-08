@@ -33,8 +33,8 @@ const HomeCard = ({ cardData }) => {
       <Card
         hoverable
         style={{
-          width: 270,
-          height: "400px",
+          width: "255px",
+          height: "370px",
           border: "1.5px solid black",
           borderRadius: "4%",
           backgroundColor: "#FDFDFD",

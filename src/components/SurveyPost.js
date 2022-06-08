@@ -6,7 +6,7 @@ import { Button } from "antd";
 import shortid from "shortid";
 import axios from "axios";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ServeyForm = styled(Form)`
   position: relative;
@@ -99,6 +99,20 @@ const SurveyPost = () => {
     fetchData();
   }, []);
 
+  // 입력을 받아서 상태로 저장하는 모듈
+  let [SubjectiveResponse, SubjectivesetResponse] = useState([]);
+
+  let onSubjectiveResponse = useCallback(
+    (e) => {
+      const subindex = Number(e.currentTarget.getAttribute("data-subjective_q-index"));
+      SubjectiveResponse[subindex] = e.target.value;
+      console.log(subindex, "subindex", SubjectiveResponse, "SubjectiveResponse");
+    },
+    [SubjectiveResponse]
+  );
+
+  console.log(postItem, "postItem");
+
   if (postItem !== null) {
     return (
       <Ddiv>
@@ -113,9 +127,10 @@ const SurveyPost = () => {
 
           {postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
             <SurveyBox key={shortid.generate()}>
-              <div className="surveyQuestion">{data}</div>
+              <div className="surveyQuestion">
+                {data},{index}
+              </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
-
               <div className="answerObjectivity">
                 {postItem.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option) => (
                   <span key={shortid.generate()} className="answerObjectivityItem">
@@ -123,17 +138,19 @@ const SurveyPost = () => {
                     <label htmlFor={Option}>{Option}</label>
                   </span>
                 ))}
-
-                {postItem.SUBJECTIVE_QUESTION[0].map((data) => (
-                  <SurveyBox key={shortid.generate()}>
-                    <div className="surveyQuestion">{data}</div>
-                    <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
-
-                    <Input.TextArea placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
-                    <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
-                  </SurveyBox>
-                ))}
               </div>
+              <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
+            </SurveyBox>
+          ))}
+
+          {postItem.SUBJECTIVE_QUESTION[0].map((data, index) => (
+            <SurveyBox key={shortid.generate()}>
+              <div className="surveyQuestion">
+                {data},{index}
+              </div>
+              <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
+
+              <Input.TextArea onChange={onSubjectiveResponse} data-subjective_q-index={index} placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
             </SurveyBox>
           ))}

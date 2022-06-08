@@ -79,7 +79,7 @@ const SurveyBox = styled.div`
   }
 `;
 
-const MultipleChoice = ({ index, MultipleChoiceeItem, MultiplechoiceQ, MultiplechoiceQ_Option }) => {
+const MultipleChoice = ({ index, MultiplechoiceQ, MultiplechoiceQ_Option }) => {
   // 설문 작성 완료가 눌려지면 발동
 
   let [option, setOption] = useState([]);
