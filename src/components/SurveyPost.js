@@ -65,6 +65,7 @@ const SurveyBox = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+
     margin-top: 7.5px;
     margin-bottom: 15px;
   }
@@ -86,6 +87,8 @@ const SurveyPost = () => {
   const { BOARD_ID } = useParams();
 
   let [postItem, setpostItem] = useState(null);
+  let [SubjectiveResponse, SetSubjectiveResponse] = useState([]);
+  let [MultipleChoiceOptionResponse, SetMultipleChoiceOptionResponse] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -94,35 +97,63 @@ const SurveyPost = () => {
           BOARD_ID: BOARD_ID,
         },
       });
+      let sample = post.data[0];
       setpostItem(post.data[0]);
+      sample.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
+        MultipleChoiceOptionResponse[index] = [];
+      });
     }
     fetchData();
   }, []);
 
   // 입력을 받아서 상태로 저장하는 모듈
-  let [SubjectiveResponse, SubjectivesetResponse] = useState([]);
 
   let onSubjectiveResponse = useCallback(
     (e) => {
-      const subindex = Number(e.currentTarget.getAttribute("data-subjective_q-index"));
+      let subindex = Number(e.currentTarget.getAttribute("data-subjective_q-index"));
       SubjectiveResponse[subindex] = e.target.value;
-      console.log(subindex, "subindex", SubjectiveResponse, "SubjectiveResponse");
     },
     [SubjectiveResponse]
   );
 
-  console.log(postItem, "postItem");
+  let onCheck = useCallback(
+    (e) => {
+      let Option = e.currentTarget.getAttribute("data-option");
+      let OptionIndex = Number(e.currentTarget.getAttribute("data-option-index"));
+      let SurveyIndex = Number(e.currentTarget.getAttribute("data-survey-index"));
+
+      if (e.target.checked) {
+        console.log("체크가되어지고 값이 추가됩니다.");
+        MultipleChoiceOptionResponse[SurveyIndex].push(Option);
+      } else {
+        console.log("체크 해제되어지고 값이 삭제됩니다.");
+        const DeleteOptionIndex = MultipleChoiceOptionResponse[SurveyIndex].indexOf(Option);
+        console.log(DeleteOptionIndex, "DeleteOptionIndex");
+        MultipleChoiceOptionResponse[SurveyIndex].splice(DeleteOptionIndex, 1);
+      }
+      console.log(Option, "Option", e.target.checked, "checked");
+      console.log(SurveyIndex, "SurveyIndex");
+    },
+    [MultipleChoiceOptionResponse]
+  );
+
+  let onsubmit = useCallback(() => {
+    console.log(SubjectiveResponse, "SubjectiveResponse");
+    console.log(MultipleChoiceOptionResponse, "MultipleChoiceOptionResponse");
+  }, [MultipleChoiceOptionResponse, SubjectiveResponse]);
 
   if (postItem !== null) {
     return (
       <Ddiv>
         <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
 
-        <ServeyForm>
+        <ServeyForm onFinish={onsubmit}>
           <div className="TopForm">
             {postItem.SERVEY_TITLE}
 
-            <Button type="primary">설문 작성 완료</Button>
+            <Button type="primary" htmlType="submit">
+              설문 작성 완료
+            </Button>
           </div>
 
           {postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
@@ -132,10 +163,12 @@ const SurveyPost = () => {
               </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
               <div className="answerObjectivity">
-                {postItem.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option) => (
+                {postItem.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option, index2) => (
                   <span key={shortid.generate()} className="answerObjectivityItem">
-                    <input type="checkbox" id={Option} />
-                    <label htmlFor={Option}>{Option}</label>
+                    <input type="checkbox" id={Option} onClick={onCheck} data-option-index={index2} data-survey-index={index} data-option={Option} />
+                    <label style={{ marginLeft: "10px" }} htmlFor={Option}>
+                      {Option}
+                    </label>
                   </span>
                 ))}
               </div>
