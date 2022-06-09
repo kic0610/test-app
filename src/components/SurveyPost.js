@@ -142,7 +142,7 @@ const SurveyPost = () => {
     console.log(MultipleChoiceOptionResponse, "MultipleChoiceOptionResponse");
   }, [MultipleChoiceOptionResponse, SubjectiveResponse]);
 
-  if (postItem !== null) {
+  if (postItem != null) {
     return (
       <Ddiv>
         <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
@@ -193,7 +193,7 @@ const SurveyPost = () => {
       </Ddiv>
     );
   } else {
-    console.log("postItem이 null이라서 빈페이지를 띄워줌");
+    console.log("postItem이 null일때 빈페이지를 띄워줌");
   }
 };
 
