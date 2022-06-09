@@ -2,7 +2,7 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import styled from "styled-components";
 
-const PostGraph = () => {
+const PostGraph = ({}) => {
   const DivGraph = styled.div`
     width: 500px;
     height: 500px;

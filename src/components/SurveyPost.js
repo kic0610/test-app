@@ -137,17 +137,30 @@ const SurveyPost = () => {
     [MultipleChoiceOptionResponse]
   );
 
-  let onsubmit = useCallback(() => {
-    console.log(SubjectiveResponse, "SubjectiveResponse");
-    console.log(MultipleChoiceOptionResponse, "MultipleChoiceOptionResponse");
-  }, [MultipleChoiceOptionResponse, SubjectiveResponse]);
+  let onSubmit = async () => {
+    await axios
+      .post("http://localhost:8003/answerinsert", {
+        BOARD_ID: BOARD_ID,
+        SubjectiveResponse: SubjectiveResponse,
+        MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
+      })
+      .then((result) => {
+        console.log(result, "result값 반환");
+      })
+      .catch((e) => {
+        console.error(e, "e");
+      })
+      .finally(() => {
+        console.log("설문조사 완료");
+      });
+  };
 
   if (postItem != null) {
     return (
       <Ddiv>
         <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
 
-        <ServeyForm onFinish={onsubmit}>
+        <ServeyForm onFinish={onSubmit}>
           <div className="TopForm">
             {postItem.SERVEY_TITLE}
 
@@ -189,7 +202,7 @@ const SurveyPost = () => {
           ))}
         </ServeyForm>
 
-        <PostGraph />
+        <PostGraph data={556} />
       </Ddiv>
     );
   } else {
