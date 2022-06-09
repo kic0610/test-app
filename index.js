@@ -72,6 +72,30 @@ app.post("/insert", (req, res) => {
   });
 });
 
+//  (answerDB를 연동하여 사용)
+// SurveyPost.js에서 설문지 답변 데이터를 작성하여 데이터베이스로 저장
+// app.post("/insert", (req, res) => {
+//   let MyServeyKey = req.body.MyServeyKey.replace("'", "\\'");
+//   let MyServeyKey = req.body.MyServeyKey;
+//   let Title = req.body.Title;
+//   let SubjectiveQ = { 0: req.body.SubjectiveQ };
+//   let SubjectiveQSTR = JSON.stringify(SubjectiveQ);
+//   let MultiplechoiceQ = { 0: req.body.MultiplechoiceQ };
+//   let MultiplechoiceQSTR = JSON.stringify(MultiplechoiceQ);
+//   let MultiplechoiceQ_Option = req.body.MultiplechoiceQ_Option;
+//   let MultiplechoiceQ_OptionSTR = JSON.stringify(MultiplechoiceQ_Option);
+//   let DeadLine = req.body.DeadLine;
+
+//   const sqlQuery = `insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values(?, ?, ?, ?, ?, ?);`;
+
+//   const values = [MyServeyKey, Title, SubjectiveQSTR, MultiplechoiceQSTR, MultiplechoiceQ_OptionSTR, DeadLine];
+//   db.query(sqlQuery, values, (err, result) => {
+//     res.send(result);
+//     console.log(result, " <-result 완료되었습니다.  ");
+//     console.log(err, "<- err 에러입니다.");
+//   });
+// });
+
 // PORT번호로 접속이 성공된다면 구현부의 콜백함수를 실행시킨다
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}!`);
