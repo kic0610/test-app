@@ -53,6 +53,18 @@ const SurveyBox = styled.div`
   min-width: 100%;
   max-width: 100%;
 
+  .topContent {
+    display: flex;
+    justify-content: space-between;
+
+    .Chartresults {
+      margin-right: 10%;
+      min-width: 10%;
+      width: auto;
+      font-weight: 600;
+    }
+  }
+
   .answerObjectivity {
     display: flex;
     justify-content: space-around;
@@ -80,6 +92,7 @@ const SurveyBox = styled.div`
     border: none;
   }
 `;
+
 const Ddiv = styled.div``;
 
 const SurveyPost = () => {
@@ -145,7 +158,7 @@ const SurveyPost = () => {
         MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
       })
       .then((result) => {
-        console.log(result, "result값 반환");
+        console.log(result.data, "result값 반환");
       })
       .catch((e) => {
         console.error(e, "e");
@@ -171,9 +184,15 @@ const SurveyPost = () => {
 
           {postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
             <SurveyBox key={shortid.generate()}>
-              <div className="surveyQuestion">
-                {data},{index}
+              <div className="topContent">
+                <div className="surveyQuestion">
+                  {data},{index}
+                </div>
+                <Button type="primary" className="Chartresults">
+                  설문통계
+                </Button>
               </div>
+
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
               <div className="answerObjectivity">
                 {postItem.MULTIPLECHOICE_QUESTION_OPTION[index].map((Option, index2) => (
