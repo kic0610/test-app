@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-body: {
-    MyServeyKey: 'kyj02339',
-    Title: '객관식+주관식 설문9',
-    DeadLine: '2022-05-31T09:48:49.183Z',
-    SubjectiveQ: [ '사탕vs과자1', '웰빙vs인스턴스1' ],
-    MultiplechoiceQ: [ '가고싶은 여행지를 선택지로 선택9', '가장 좋아하는 음악장르 선택지로 선택!9' ],
-    MultiplechoiceQ_Option: { '0': [Array], '1': [Array] }
-  },
-
-
-
-
-
-  
-=======
 // 서버응답data
 // 특정 질문의 선택지를 모두 나열 = id , label
 // 서버응답데이터를 가지고 특정 선택지의 갯수를 세기 = value
@@ -73,4 +57,3 @@ let 1번질문 data = [
 
 
 
->>>>>>> 48341add15d3f44bc5e6eafb417d92792c5591c9
