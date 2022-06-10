@@ -102,6 +102,7 @@ const SurveyPost = () => {
   let [postItem, setpostItem] = useState(null);
   let [SubjectiveResponse, SetSubjectiveResponse] = useState([]);
   let [MultipleChoiceOptionResponse, SetMultipleChoiceOptionResponse] = useState({});
+  let [data2, Setdata2] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -159,14 +160,35 @@ const SurveyPost = () => {
       })
       .then((result) => {
         console.log(result.data, "result값 반환");
+        Setdata2(result.data);
       })
       .catch((e) => {
         console.error(e, "e");
       })
       .finally(() => {
         console.log("설문조사 완료");
+        console.log(postItem, "postItem");
+        console.log(data2, "data2");
       });
   };
+
+  // let onSubmit = async () => {
+  //   await axios
+  //     .post("http://localhost:8003/answerinsert", {
+  //       BOARD_ID: BOARD_ID,
+  //       SubjectiveResponse: SubjectiveResponse,
+  //       MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
+  //     })
+  //     .then((result) => {
+  //       console.log(result.data, "result값 반환");
+  //     })
+  //     .catch((e) => {
+  //       console.error(e, "e");
+  //     })
+  //     .finally(() => {
+  //       console.log("설문조사 완료");
+  //     });
+  // };
 
   if (postItem != null) {
     return (
@@ -221,7 +243,7 @@ const SurveyPost = () => {
           ))}
         </ServeyForm>
 
-        <PostGraph data={556} />
+        <PostGraph data2={data2} />
       </Ddiv>
     );
   } else {
