@@ -2,7 +2,7 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import styled from "styled-components";
 
-const PostGraph = () => {
+const PostGraph = ({ data2 }) => {
   const DivGraph = styled.div`
     width: 500px;
     height: 500px;
@@ -15,7 +15,7 @@ const PostGraph = () => {
     {
       id: "go",
       label: "go",
-      value: 262,
+      value: 252,
       color: "hsl(120, 70%, 50%)",
     },
     {
@@ -40,7 +40,7 @@ const PostGraph = () => {
       id: "erlang",
       label: "erlang",
       value: 337,
-      color: "hsl(35, 70%, 50%)",
+      colorr: "hsl(35, 70%, 50%)",
     },
   ];
 
@@ -86,56 +86,6 @@ const PostGraph = () => {
             rotation: -45,
             lineWidth: 6,
             spacing: 10,
-          },
-        ]}
-        fill={[
-          {
-            match: {
-              id: "ruby",
-            },
-            id: "dots",
-          },
-          {
-            match: {
-              id: "c",
-            },
-            id: "dots",
-          },
-          {
-            match: {
-              id: "go",
-            },
-            id: "dots",
-          },
-          {
-            match: {
-              id: "python",
-            },
-            id: "dots",
-          },
-          {
-            match: {
-              id: "scala",
-            },
-            id: "lines",
-          },
-          {
-            match: {
-              id: "lisp",
-            },
-            id: "lines",
-          },
-          {
-            match: {
-              id: "elixir",
-            },
-            id: "lines",
-          },
-          {
-            match: {
-              id: "javascript",
-            },
-            id: "lines",
           },
         ]}
         legends={[

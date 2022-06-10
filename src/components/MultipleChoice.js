@@ -89,7 +89,6 @@ const MultipleChoice = ({ index, MultiplechoiceQ, MultiplechoiceQ_Option }) => {
   let onOptionAdd = useCallback(() => {
     if (option[0] === undefined) {
       MultiplechoiceQ_Option[index] = [];
-    } else {
     }
 
     let shortkey = shortid.generate();

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body: {
     MyServeyKey: 'kyj02339',
     Title: '객관식+주관식 설문9',
@@ -12,3 +13,64 @@ body: {
 
 
   
+=======
+// 서버응답data
+// 특정 질문의 선택지를 모두 나열 = id , label
+// 서버응답데이터를 가지고 특정 선택지의 갯수를 세기 = value
+
+
+
+let 1번질문 data = [
+  {
+    id: "go",
+    label: "go",
+    value: 252,
+    color: "hsl(120, 70%, 50%)",
+  },
+  {
+    id: "python",
+    label: "python",
+    value: 522,
+    color: "hsl(208, 70%, 50%)",
+  },
+  {
+    id: "css",
+    label: "css",
+    value: 106,
+    color: "hsl(227, 70%, 50%)",
+  },
+  {
+    id: "php",
+    label: "php",
+    value: 575,
+    color: "hsl(124, 70%, 50%)",
+  },
+  {
+    id: "erlang",
+    label: "erlang",
+    value: 337,
+    colorr: "hsl(35, 70%, 50%)",
+  },
+];
+
+
+[
+  {
+    "ANSWER_BOARD_ID": 2,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": "{"0": ["610사탕", "610웰빙"]}",
+    "MULTIPLECHOICE_ANSWER": "{"0": ["영국", "대만", "일본", "제주도"], "1": ["어쿠스틱", "락"]}",
+    "ANSWER_REGISTER_DATE": "2022-06-10T01:27:17.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 4,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": "{"0": ["사탕", "웰빙빙"]}",
+    "MULTIPLECHOICE_ANSWER": "{"0": ["영국", "대만", "일본"], "1": ["락"]}",
+    "ANSWER_REGISTER_DATE": "2022-06-10T01:58:16.000Z"
+  }
+]
+
+
+
+>>>>>>> 48341add15d3f44bc5e6eafb417d92792c5591c9

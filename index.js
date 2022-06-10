@@ -4,8 +4,15 @@ const app = express();
 const mysql = require("mysql");
 
 const PORT = process.env.port || 8003;
+<<<<<<< HEAD
 // const db = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et78", database: "capstoneDB" });
 const db = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et", database: "capstoneDB" });
+=======
+// const capstoneDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "1234", database: "capstoneDB" });
+// const answerDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "1234", database: "answerDB" });
+const capstoneDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et78", database: "capstoneDB" });
+const answerDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et78", database: "answerDB" });
+>>>>>>> 48341add15d3f44bc5e6eafb417d92792c5591c9
 
 // 서버단에서 cors 처리하는 방법(express)
 const cors = require("cors");
@@ -22,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // App.js에서 설문지 데이터목록을 조회함 (Home.js에서 사용)
 app.get("/boardlist", (req, res) => {
   const sqlQuery = "SELECT *FROM BOARD;";
-  db.query(sqlQuery, (err, result) => {
+  capstoneDB.query(sqlQuery, (err, result) => {
     console.log(result, " <-result 완료되었습니다.  ");
     console.log(err, "<- err 에러입니다.");
 
@@ -39,7 +46,7 @@ app.get("/boardContent", (req, res) => {
   const sql = "SELECT * FROM BOARD WHERE `BOARD_ID` = ?;";
   const values = [req.query.BOARD_ID];
 
-  db.query(sql, values, (err, result) => {
+  capstoneDB.query(sql, values, (err, result) => {
     result.map((item) => (item.SUBJECTIVE_QUESTION = JSON.parse(item.SUBJECTIVE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION = JSON.parse(item.MULTIPLECHOICE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION_OPTION = JSON.parse(item.MULTIPLECHOICE_QUESTION_OPTION)));
@@ -50,8 +57,7 @@ app.get("/boardContent", (req, res) => {
 });
 
 // surveying.js에서 설문지 데이터를 작성하여 데이터베이스로 저장 (Surveying.js에서 사용)
-app.post("/insert", (req, res) => {
-  // let MyServeyKey = req.body.MyServeyKey.replace("'", "\\'");
+app.post("/postinsert", (req, res) => {
   let MyServeyKey = req.body.MyServeyKey;
   let Title = req.body.Title;
   let SubjectiveQ = { 0: req.body.SubjectiveQ };
@@ -65,7 +71,32 @@ app.post("/insert", (req, res) => {
   const sqlQuery = `insert into BOARD(MY_SERVEY_KEY, SERVEY_TITLE, SUBJECTIVE_QUESTION, MULTIPLECHOICE_QUESTION, MULTIPLECHOICE_QUESTION_OPTION, SERVEY_DEADLINE_DATE) values(?, ?, ?, ?, ?, ?);`;
 
   const values = [MyServeyKey, Title, SubjectiveQSTR, MultiplechoiceQSTR, MultiplechoiceQ_OptionSTR, DeadLine];
-  db.query(sqlQuery, values, (err, result) => {
+  capstoneDB.query(sqlQuery, values, (err, result) => {
+    res.send(result);
+    console.log(result, " <-result 완료되었습니다.  ");
+    console.log(err, "<- err 에러입니다.");
+  });
+});
+
+//  (answerDB를 연동하여 사용)
+// SurveyPost.js에서 설문지 답변 데이터를 작성하여 데이터베이스로 저장
+app.post("/answerinsert", (req, res) => {
+  let MY_SERVEY_KEY = req.body.BOARD_ID;
+  let SubjectiveResponse = JSON.stringify({ 0: req.body.SubjectiveResponse });
+  let MultipleChoiceOptionResponse = JSON.stringify(req.body.MultipleChoiceOptionResponse);
+
+  const sqlQuery = `insert into ANSWERBOARD(SERVEY_KEY, SUBJECTIVE_ANSWER, MULTIPLECHOICE_ANSWER) values(?, ?, ?);`;
+  const values = [MY_SERVEY_KEY, SubjectiveResponse, MultipleChoiceOptionResponse];
+
+  answerDB.query(sqlQuery, values, (err, result) => {
+    console.log(result, " <-result 완료되었습니다.  ");
+    console.log(err, "<- err 에러입니다.");
+  });
+
+  const sqlQuery2 = "SELECT * FROM ANSWERBOARD WHERE `SERVEY_KEY` = ?;";
+  const values2 = [req.body.BOARD_ID];
+
+  answerDB.query(sqlQuery2, values2, (err, result) => {
     res.send(result);
     console.log(result, " <-result 완료되었습니다.  ");
     console.log(err, "<- err 에러입니다.");
