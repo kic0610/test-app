@@ -2,7 +2,7 @@ import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import styled from "styled-components";
 
-const PostGraph = ({ data2 }) => {
+const PostGraph = ({ aaa, bbb }) => {
   const DivGraph = styled.div`
     width: 500px;
     height: 500px;
@@ -11,38 +11,48 @@ const PostGraph = ({ data2 }) => {
     transform: translateX(-50%);
   `;
 
-  let data = [
-    {
-      id: "go",
-      label: "go",
-      value: 252,
-      color: "hsl(120, 70%, 50%)",
-    },
-    {
-      id: "python",
-      label: "python",
-      value: 522,
-      color: "hsl(208, 70%, 50%)",
-    },
-    {
-      id: "css",
-      label: "css",
-      value: 106,
-      color: "hsl(227, 70%, 50%)",
-    },
-    {
-      id: "php",
-      label: "php",
-      value: 575,
-      color: "hsl(124, 70%, 50%)",
-    },
-    {
-      id: "erlang",
-      label: "erlang",
-      value: 337,
-      colorr: "hsl(35, 70%, 50%)",
-    },
-  ];
+  let data = [];
+
+  // let strArr = Object.values(aaa.MULTIPLECHOICE_QUESTION_OPTION);
+
+  bbb.map((item) => {
+    data.push({ id: item, label: item, value: 1, color: "hsl(120, 70%, 50%)" });
+  });
+
+  console.log(data, "data");
+
+  // let data = [
+  //   {
+  //     id: "go",
+  //     label: "go",
+  //     value: 252,
+  //     color: "hsl(120, 70%, 50%)",
+  //   },
+  //   {
+  //     id: "python",
+  //     label: "python",
+  //     value: 522,
+  //     color: "hsl(208, 70%, 50%)",
+  //   },
+  //   {
+  //     id: "css",
+  //     label: "css",
+  //     value: 106,
+  //     color: "hsl(227, 70%, 50%)",
+  //   },
+  //   {
+  //     id: "php",
+  //     label: "php",
+  //     value: 575,
+  //     color: "hsl(124, 70%, 50%)",
+  //   },
+  //   {
+  //     id: "erlang",
+  //     label: "erlang",
+  //     value: 337,
+  //     colorr: "hsl(35, 70%, 50%)",
+  //   },
+  // ];
 
   return (
     <DivGraph>

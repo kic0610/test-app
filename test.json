@@ -1,6 +1,8 @@
 // 서버응답data
-// 특정 질문의 선택지를 모두 나열 = id , label
+// 특정 질문의 선택지를 모두 나열 MULTIPLECHOICE_QUESTION_OPTION = id , label
 // 서버응답데이터를 가지고 특정 선택지의 갯수를 세기 = value
+
+
 
 
 
@@ -36,6 +38,43 @@ let 1번질문 data = [
     colorr: "hsl(35, 70%, 50%)",
   },
 ];
+
+
+[
+  {
+      "id": "프랭스1",
+      "label": "프랭스1",
+      "value": 1,
+      "color": "hsl(120, 70%, 50%)"
+  },
+  {
+      "id": "영국",
+      "label": "영국",
+      "value": 1,
+      "color": "hsl(120, 70%, 50%)"
+  },
+  {
+      "id": "대만",
+      "label": "대만",
+      "value": 1,
+      "color": "hsl(120, 70%, 50%)"
+  },
+  {
+      "id": "일본",
+      "label": "일본",
+      "value": 1,
+      "color": "hsl(120, 70%, 50%)"
+  },
+  {
+      "id": "제주도",
+      "label": "제주도",
+      "value": 1,
+      "color": "hsl(120, 70%, 50%)"
+  }
+]
+
+// ㄱ.map 을해서 item.MULTIPLECHOICE_ANSWER을 한뒤 각 질문별 각 응답요소를 카운트하기 (switch문으로 카운트하기)
+// 그후 카운트된 갯수를 각 선택지의 value로 설정하기
 
 
 [

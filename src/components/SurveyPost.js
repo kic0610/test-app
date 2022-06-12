@@ -142,11 +142,8 @@ const SurveyPost = () => {
       } else {
         console.log("체크 해제되어지고 값이 삭제됩니다.");
         const DeleteOptionIndex = MultipleChoiceOptionResponse[SurveyIndex].indexOf(Option);
-        console.log(DeleteOptionIndex, "DeleteOptionIndex");
         MultipleChoiceOptionResponse[SurveyIndex].splice(DeleteOptionIndex, 1);
       }
-      console.log(Option, "Option", e.target.checked, "checked");
-      console.log(SurveyIndex, "SurveyIndex");
     },
     [MultipleChoiceOptionResponse]
   );
@@ -159,16 +156,14 @@ const SurveyPost = () => {
         MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
       })
       .then((result) => {
-        console.log(result.data, "result값 반환");
         Setdata2(result.data);
+        console.log(result.data);
       })
       .catch((e) => {
         console.error(e, "e");
       })
       .finally(() => {
         console.log("설문조사 완료");
-        console.log(postItem, "postItem");
-        console.log(data2, "data2");
       });
   };
 
@@ -190,6 +185,7 @@ const SurveyPost = () => {
   //     });
   // };
 
+  console.log(postItem, "postItem");
   if (postItem != null) {
     return (
       <Ddiv>
@@ -227,6 +223,7 @@ const SurveyPost = () => {
                 ))}
               </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
+              <PostGraph bbb={postItem.MULTIPLECHOICE_QUESTION_OPTION[index]} />
             </SurveyBox>
           ))}
 
@@ -242,8 +239,6 @@ const SurveyPost = () => {
             </SurveyBox>
           ))}
         </ServeyForm>
-
-        <PostGraph data2={data2} />
       </Ddiv>
     );
   } else {
