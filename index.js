@@ -92,6 +92,9 @@ app.post("/answerinsert", (req, res) => {
   const values2 = [req.body.BOARD_ID];
 
   answerDB.query(sqlQuery2, values2, (err, result) => {
+    result.map((item) => (item.MULTIPLECHOICE_ANSWER = JSON.parse(item.MULTIPLECHOICE_ANSWER)));
+    result.map((item) => (item.SUBJECTIVE_ANSWER = JSON.parse(item.SUBJECTIVE_ANSWER)));
+
     res.send(result);
     console.log(result, " <-result 완료되었습니다.  ");
     console.log(err, "<- err 에러입니다.");

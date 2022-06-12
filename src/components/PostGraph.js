@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import styled from "styled-components";
 
-const PostGraph = ({ aaa, bbb }) => {
+const PostGraph = ({ countdata, Options, index }) => {
   const DivGraph = styled.div`
-    width: 500px;
+    min-width: 500px;
     height: 500px;
     position: relative;
     left: 50%;
@@ -13,52 +13,28 @@ const PostGraph = ({ aaa, bbb }) => {
 
   let data = [];
 
-  // let strArr = Object.values(aaa.MULTIPLECHOICE_QUESTION_OPTION);
+  // Options속 요소와 countdata속 MULTIPLECHOICE_ANSWER[index]의 요소를 비교하여 값이 동일할경우 value를 증가시킴
 
-  bbb.map((item) => {
-    data.push({ id: item, label: item, value: 1, color: "hsl(120, 70%, 50%)" });
+  Options.map((bitem) => {
+    let countvalue = 0;
+    countdata.map((citem) => {
+      let result = citem.MULTIPLECHOICE_ANSWER[index].filter((cfitem) => cfitem === bitem);
+      console.log(bitem, result.length, "result.length");
+      countvalue = countvalue + result.length;
+    });
+    data.push({ id: bitem, label: bitem, value: countvalue, color: "hsl(120, 70%, 50%)" });
   });
 
+  console.log("----------------------");
+  console.log(Options, "Options");
   console.log(data, "data");
-
-  // let data = [
-  //   {
-  //     id: "go",
-  //     label: "go",
-  //     value: 252,
-  //     color: "hsl(120, 70%, 50%)",
-  //   },
-  //   {
-  //     id: "python",
-  //     label: "python",
-  //     value: 522,
-  //     color: "hsl(208, 70%, 50%)",
-  //   },
-  //   {
-  //     id: "css",
-  //     label: "css",
-  //     value: 106,
-  //     color: "hsl(227, 70%, 50%)",
-  //   },
-  //   {
-  //     id: "php",
-  //     label: "php",
-  //     value: 575,
-  //     color: "hsl(124, 70%, 50%)",
-  //   },
-  //   {
-  //     id: "erlang",
-  //     label: "erlang",
-  //     value: 337,
-  //     colorr: "hsl(35, 70%, 50%)",
-  //   },
-  // ];
+  console.log(countdata, "countdata");
 
   return (
-    <DivGraph>
+    <DivGraph re>
       <ResponsivePie
         data={data}
-        theme={{ legends: { text: { fontSize: 17 } } }}
+        theme={{ legends: { text: { fontSize: 12 } } }}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         innerRadius={0.5}
         padAngle={0.7}
@@ -111,7 +87,7 @@ const PostGraph = ({ aaa, bbb }) => {
             itemTextColor: "#999",
             itemDirection: "left-to-right",
             itemOpacity: 1,
-            symbolSize: 18,
+            symbolSize: 14,
             symbolShape: "circle",
             effects: [
               {

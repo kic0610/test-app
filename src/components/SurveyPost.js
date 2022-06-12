@@ -6,7 +6,7 @@ import { Button } from "antd";
 import shortid from "shortid";
 import axios from "axios";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const ServeyForm = styled(Form)`
   position: relative;
@@ -98,11 +98,14 @@ const Ddiv = styled.div``;
 const SurveyPost = () => {
   // 리액트 라우터로 현재 주소의 index를 가져오기 (서버와 통신하는 쿼리로사용)
   const { BOARD_ID } = useParams();
+  const ChartView = useRef(null);
 
+  let [display, setdisplay] = useState("none");
+  let [aaa, setaaa] = useState(false);
   let [postItem, setpostItem] = useState(null);
   let [SubjectiveResponse, SetSubjectiveResponse] = useState([]);
   let [MultipleChoiceOptionResponse, SetMultipleChoiceOptionResponse] = useState({});
-  let [data2, Setdata2] = useState([]);
+  let [ResultCount, SetResultCount] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -148,6 +151,15 @@ const SurveyPost = () => {
     [MultipleChoiceOptionResponse]
   );
 
+  let onView = () => {
+    if (aaa) {
+      setdisplay("block");
+      console.log(111);
+    } else {
+      alert("설문 작성후 확인해주세요.");
+    }
+  };
+
   let onSubmit = async () => {
     await axios
       .post("http://localhost:8003/answerinsert", {
@@ -156,34 +168,17 @@ const SurveyPost = () => {
         MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
       })
       .then((result) => {
-        Setdata2(result.data);
-        console.log(result.data);
+        SetResultCount(result.data);
+        setaaa(true);
       })
       .catch((e) => {
         console.error(e, "e");
       })
       .finally(() => {
         console.log("설문조사 완료");
+        console.log("입력값들 초기화");
       });
   };
-
-  // let onSubmit = async () => {
-  //   await axios
-  //     .post("http://localhost:8003/answerinsert", {
-  //       BOARD_ID: BOARD_ID,
-  //       SubjectiveResponse: SubjectiveResponse,
-  //       MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
-  //     })
-  //     .then((result) => {
-  //       console.log(result.data, "result값 반환");
-  //     })
-  //     .catch((e) => {
-  //       console.error(e, "e");
-  //     })
-  //     .finally(() => {
-  //       console.log("설문조사 완료");
-  //     });
-  // };
 
   console.log(postItem, "postItem");
   if (postItem != null) {
@@ -195,9 +190,15 @@ const SurveyPost = () => {
           <div className="TopForm">
             {postItem.SERVEY_TITLE}
 
-            <Button type="primary" htmlType="submit">
-              설문 작성 완료
-            </Button>
+            <div>
+              <Button onClick={onView} className="Chartresults" style={{ marginRight: "5vw", backgroundColor: "#000000", color: "white" }}>
+                설문 통계 확인
+              </Button>
+
+              <Button type="primary" htmlType="submit">
+                설문 작성 완료
+              </Button>
+            </div>
           </div>
 
           {postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
@@ -206,9 +207,6 @@ const SurveyPost = () => {
                 <div className="surveyQuestion">
                   {data},{index}
                 </div>
-                <Button type="primary" className="Chartresults">
-                  설문통계
-                </Button>
               </div>
 
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
@@ -223,7 +221,9 @@ const SurveyPost = () => {
                 ))}
               </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
-              <PostGraph bbb={postItem.MULTIPLECHOICE_QUESTION_OPTION[index]} />
+              <div className="aaa" ref={ChartView} style={{ display: display }}>
+                <PostGraph countdata={ResultCount} Options={postItem.MULTIPLECHOICE_QUESTION_OPTION[index]} index={index} />
+              </div>
             </SurveyBox>
           ))}
 
