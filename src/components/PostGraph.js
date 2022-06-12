@@ -9,6 +9,10 @@ const PostGraph = ({ countdata, Options, index }) => {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+
+    text {
+      fill: rgb(510, 51, 51);
+    }
   `;
 
   let data = [];
@@ -19,19 +23,13 @@ const PostGraph = ({ countdata, Options, index }) => {
     let countvalue = 0;
     countdata.map((citem) => {
       let result = citem.MULTIPLECHOICE_ANSWER[index].filter((cfitem) => cfitem === bitem);
-      console.log(bitem, result.length, "result.length");
       countvalue = countvalue + result.length;
     });
     data.push({ id: bitem, label: bitem, value: countvalue, color: "hsl(120, 70%, 50%)" });
   });
 
-  console.log("----------------------");
-  console.log(Options, "Options");
-  console.log(data, "data");
-  console.log(countdata, "countdata");
-
   return (
-    <DivGraph re>
+    <DivGraph>
       <ResponsivePie
         data={data}
         theme={{ legends: { text: { fontSize: 12 } } }}
@@ -81,7 +79,7 @@ const PostGraph = ({ countdata, Options, index }) => {
             justify: false,
             translateX: 0,
             translateY: 56,
-            itemsSpacing: 0,
+            itemsSpacing: 15,
             itemWidth: 100,
             itemHeight: 18,
             itemTextColor: "#999",

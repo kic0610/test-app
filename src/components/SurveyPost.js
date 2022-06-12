@@ -53,6 +53,14 @@ const SurveyBox = styled.div`
   min-width: 100%;
   max-width: 100%;
 
+  .chartBox {
+    text {
+      font-size: 1rem !important;
+      font-weight: bold !important;
+      fill: rgb(0, 128, 0) !important;
+    }
+  }
+
   .topContent {
     display: flex;
     justify-content: space-between;
@@ -101,7 +109,7 @@ const SurveyPost = () => {
   const ChartView = useRef(null);
 
   let [display, setdisplay] = useState("none");
-  let [aaa, setaaa] = useState(false);
+  let [SubmitValue, setSubmitValue] = useState(false);
   let [postItem, setpostItem] = useState(null);
   let [SubjectiveResponse, SetSubjectiveResponse] = useState([]);
   let [MultipleChoiceOptionResponse, SetMultipleChoiceOptionResponse] = useState({});
@@ -119,6 +127,7 @@ const SurveyPost = () => {
       sample.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
         MultipleChoiceOptionResponse[index] = [];
       });
+      console.log(sample, "sample.MULTIPLECHOICE_QUESTIONsample.MULTIPLECHOICE_QUESTION");
     }
     fetchData();
   }, []);
@@ -136,7 +145,6 @@ const SurveyPost = () => {
   let onCheck = useCallback(
     (e) => {
       let Option = e.currentTarget.getAttribute("data-option");
-      let OptionIndex = Number(e.currentTarget.getAttribute("data-option-index"));
       let SurveyIndex = Number(e.currentTarget.getAttribute("data-survey-index"));
 
       if (e.target.checked) {
@@ -152,9 +160,8 @@ const SurveyPost = () => {
   );
 
   let onView = () => {
-    if (aaa) {
+    if (SubmitValue) {
       setdisplay("block");
-      console.log(111);
     } else {
       alert("설문 작성후 확인해주세요.");
     }
@@ -169,7 +176,7 @@ const SurveyPost = () => {
       })
       .then((result) => {
         SetResultCount(result.data);
-        setaaa(true);
+        setSubmitValue(true);
       })
       .catch((e) => {
         console.error(e, "e");
@@ -177,6 +184,9 @@ const SurveyPost = () => {
       .finally(() => {
         console.log("설문조사 완료");
         console.log("입력값들 초기화");
+        postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
+          MultipleChoiceOptionResponse[index] = [];
+        });
       });
   };
 
@@ -221,7 +231,7 @@ const SurveyPost = () => {
                 ))}
               </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
-              <div className="aaa" ref={ChartView} style={{ display: display }}>
+              <div className="chartBox" ref={ChartView} style={{ display: display }}>
                 <PostGraph countdata={ResultCount} Options={postItem.MULTIPLECHOICE_QUESTION_OPTION[index]} index={index} />
               </div>
             </SurveyBox>

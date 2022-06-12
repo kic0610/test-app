@@ -23,28 +23,37 @@ const CardTitle = styled.div`
   padding: 1rem;
 `;
 
+const ItemLink = styled(Link)`
+  .CardItem {
+    width: 255px;
+    height: 370px;
+    border: 1.5px solid black;
+    border-radius: 4%;
+    background-color: #e8f5e9;
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 1);
+    cursor: pointer;
+    transition: 0.65s;
+  }
+  .CardItem:hover {
+    transform: scale(1.05);
+  }
+`;
+
 const HomeCard = ({ cardData }) => {
   let timeSource = cardData.SERVEY_REGISTER_DATE;
   let dateObj = new Date(timeSource);
   let timeString_KR = dateObj.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
 
   return (
-    <Link to={`/post/${cardData.BOARD_ID}`}>
+    <ItemLink to={`/post/${cardData.BOARD_ID}`}>
       <Card
         hoverable
-        style={{
-          width: "255px",
-          height: "370px",
-          border: "1.5px solid black",
-          borderRadius: "4%",
-          backgroundColor: "#FDFDFD",
-          boxShadow: "0 10px 24px -4px rgba(0,0,0,1)",
-        }}
+        className="CardItem"
         cover={<CardTitle style={{ border: "0.5px solid black", borderRadius: "4%", backgroundColor: getRandomColor() }}>{cardData.SERVEY_TITLE}</CardTitle>}
       >
         <Card.Meta title={`${timeString_KR} 작성`} />
       </Card>
-    </Link>
+    </ItemLink>
   );
 };
 
