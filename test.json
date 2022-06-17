@@ -1,98 +1,482 @@
-// 서버응답data
-// 특정 질문의 선택지를 모두 나열 MULTIPLECHOICE_QUESTION_OPTION = id , label
-// 서버응답데이터를 가지고 특정 선택지의 갯수를 세기 = value
-
-
-
-
-
-let 1번질문 data = [
-  {
-    id: "go",
-    label: "go",
-    value: 252,
-    color: "hsl(120, 70%, 50%)",
-  },
-  {
-    id: "python",
-    label: "python",
-    value: 522,
-    color: "hsl(208, 70%, 50%)",
-  },
-  {
-    id: "css",
-    label: "css",
-    value: 106,
-    color: "hsl(227, 70%, 50%)",
-  },
-  {
-    id: "php",
-    label: "php",
-    value: 575,
-    color: "hsl(124, 70%, 50%)",
-  },
-  {
-    id: "erlang",
-    label: "erlang",
-    value: 337,
-    colorr: "hsl(35, 70%, 50%)",
-  },
-];
-
-
 [
   {
-      "id": "프랭스1",
-      "label": "프랭스1",
-      "value": 1,
-      "color": "hsl(120, 70%, 50%)"
+    "ANSWER_BOARD_ID": 1,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㅂㅈㄷㅂㅈㄷ", "ㅂㅈㄷㅂㅈㄷ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅂㅈㄷ", "ㅄㅅㅈㄷ"],
+      "1": ["ㅇㅎㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:08:39.000Z"
   },
-  {
-      "id": "영국",
-      "label": "영국",
-      "value": 1,
-      "color": "hsl(120, 70%, 50%)"
-  },
-  {
-      "id": "대만",
-      "label": "대만",
-      "value": 1,
-      "color": "hsl(120, 70%, 50%)"
-  },
-  {
-      "id": "일본",
-      "label": "일본",
-      "value": 1,
-      "color": "hsl(120, 70%, 50%)"
-  },
-  {
-      "id": "제주도",
-      "label": "제주도",
-      "value": 1,
-      "color": "hsl(120, 70%, 50%)"
-  }
-]
-
-// ㄱ.map 을해서 item.MULTIPLECHOICE_ANSWER을 한뒤 각 질문별 각 응답요소를 카운트하기 (switch문으로 카운트하기)
-// 그후 카운트된 갯수를 각 선택지의 value로 설정하기
-
-
-[
   {
     "ANSWER_BOARD_ID": 2,
     "SERVEY_KEY": 1,
-    "SUBJECTIVE_ANSWER": "{"0": ["610사탕", "610웰빙"]}",
-    "MULTIPLECHOICE_ANSWER": "{"0": ["영국", "대만", "일본", "제주도"], "1": ["어쿠스틱", "락"]}",
-    "ANSWER_REGISTER_DATE": "2022-06-10T01:27:17.000Z"
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㅂㅈㄷㅂㅈㄷ", "ㅂㅈㄷㅂㅈㄷ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅂㅈㄷ", "ㅄㅅㅈㄷ"],
+      "1": ["ㅇㅎㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:08:41.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 3,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㅂㅈㄷㅂㅈㄷ", "ㅂㅈㄷㅂㅈㄷ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅂㅈㄷ", "ㅄㅅㅈㄷ"],
+      "1": ["ㅇㅎㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:08:49.000Z"
   },
   {
     "ANSWER_BOARD_ID": 4,
     "SERVEY_KEY": 1,
-    "SUBJECTIVE_ANSWER": "{"0": ["사탕", "웰빙빙"]}",
-    "MULTIPLECHOICE_ANSWER": "{"0": ["영국", "대만", "일본"], "1": ["락"]}",
-    "ANSWER_REGISTER_DATE": "2022-06-10T01:58:16.000Z"
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:10:39.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 5,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:10:41.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 6,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㄴㅇㅎㅇㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:10:50.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 7,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ", "ㅁㅋㅌㅍㄶ", "ㅅㄱㅇㅀㅇㄹ휴"],
+      "1": ["ㄴㅇㅎㅇㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:14:14.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 8,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ", "ㅁㅋㅌㅍㄶ", "ㅅㄱㅇㅀㅇㄹ휴"],
+      "1": ["ㄴㅇㅎㅇㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:14:15.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 9,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:14:22.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 14,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["qqq", "www"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅂㅈㄷ", "ㅄㅅㅈㄷ", "ㅁㅋㅌㅍㄶ"],
+      "1": ["ㅇㅎㅇㅀ", "ㄷㅇㄱㅎㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:45:04.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 15,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:56:42.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 16,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T05:59:59.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 19,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㄴㄴ", "ㄴㄴㄴ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅁㅋㅌㅍㄶ"],
+      "1": ["ㄴㅀㅍ", "ㄴㅇㄹㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:50:13.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 20,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㄴㄴ", "ㄴㄴㄴ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅁㅋㅌㅍㄶ"],
+      "1": ["ㄴㅀㅍ", "ㄴㅇㄹㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:50:21.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 21,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㄴㄴ", "ㄴㄴㄴ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅁㅋㅌㅍㄶ"],
+      "1": ["ㄴㅀㅍ", "ㄴㅇㄹㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:50:24.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 22,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㄴㄴ", "ㄴㄴㄴ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅁㅋㅌㅍㄶ"],
+      "1": ["ㄴㅀㅍ", "ㄴㅇㄹㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:50:25.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 23,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㄴㄴ", "ㄴㄴㄴ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅁㅋㅌㅍㄶ"],
+      "1": ["ㄴㅀㅍ", "ㄴㅇㄹㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:50:28.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 24,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅂㅈㄷ", "ㅄㅅㅈㄷ"],
+      "1": ["ㅇㅎㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:53:33.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 25,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅂㅈㄷ", "ㅄㅅㅈㄷ"],
+      "1": ["ㅇㅎㅇㅀ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T06:53:50.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 26,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㅈㅈ", "ㅈㅈㅈ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㅇㅎㅇㅀ", "ㄷㅇㄱㅎㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:02:13.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 27,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["ㅈㅈ", "ㅈㅈㅈ"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㅇㅎㅇㅀ", "ㄷㅇㄱㅎㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:02:18.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 28,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㄴㅀㅍ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:02:36.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 29,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㄴㅀㅍ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:02:46.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 30,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㄴㅀㅍ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:02:47.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 31,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": ["ㄴㅀㅍ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:02:54.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 32,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:09:22.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 33,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ"],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:09:40.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 34,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ"],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:09:45.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 35,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ"],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:10:02.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 36,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ"],
+      "1": ["ㄷㅇㄱㅎㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:11:22.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 37,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:11:31.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 38,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["qq", "w"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": ["ㅄㅅㅈㄷ"],
+      "1": ["ㄷㅇㄱㅎㄹ"]
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:34:55.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 39,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["qq", "w"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:35:04.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 40,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["qq", "w"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:35:04.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 41,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": ["qq", "w"]
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:35:09.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 42,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T07:37:29.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 51,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-12T08:01:55.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 72,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-17T03:42:19.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 73,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-17T03:43:38.000Z"
+  },
+  {
+    "ANSWER_BOARD_ID": 74,
+    "SERVEY_KEY": 1,
+    "SUBJECTIVE_ANSWER": {
+      "0": []
+    },
+    "MULTIPLECHOICE_ANSWER": {
+      "0": [],
+      "1": []
+    },
+    "ANSWER_REGISTER_DATE": "2022-06-17T03:47:36.000Z"
   }
 ]
-
-
-

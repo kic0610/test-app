@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Input, Button } from "antd";
+import { Link } from "react-router-dom";
 
 const MyKeyInput = styled.div`
   display: flex;
@@ -114,18 +115,12 @@ const MySurvey = ({ SurveyData }) => {
     setState(e.target.value);
   }, []);
 
-  //게시물 클릭시 게시물고유 id를통해 페이지 전환하기
-  let postClick = (e) => {
-    window.location.href = `/post/${e.currentTarget.getAttribute("data-post-key")}`;
-    console.log(e.currentTarget.getAttribute("data-post-key"));
-  };
-
   let onSearch = useCallback(() => {
     const found = SurveyData.filter((element) => element.MY_SERVEY_KEY == state);
     setMySurvey(found);
   }, [SurveyData, state]);
 
-  console.log(state);
+  console.log(mySurvey, "mySurvey");
 
   return (
     <div>
@@ -147,15 +142,14 @@ const MySurvey = ({ SurveyData }) => {
 
       <MyPostSection>
         {mySurvey.map((myItem, index) => (
-          <MyPostItem key={index}>
-            <MyPostItemTitle onClick={postClick} data-post-key={123}>
-              {myItem.SERVEY_TITLE}
-            </MyPostItemTitle>
-            <MyPostItemDate>
-              <span style={{ color: "#E6F7FF" }}>작성시간 :</span> {new Date(myItem.SERVEY_REGISTER_DATE).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
-            </MyPostItemDate>
-            {/* <MyPostItemDate>{myItem.SERVEY_REGISTER_DATE}</MyPostItemDate> */}
-          </MyPostItem>
+          <Link to={`/post/${myItem.BOARD_ID}`} key={index}>
+            <MyPostItem>
+              <MyPostItemTitle>{myItem.SERVEY_TITLE}</MyPostItemTitle>
+              <MyPostItemDate>
+                <span style={{ color: "#E6F7FF" }}>작성시간 :</span> {new Date(myItem.SERVEY_REGISTER_DATE).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
+              </MyPostItemDate>
+            </MyPostItem>
+          </Link>
         ))}
       </MyPostSection>
       <PageBTN>

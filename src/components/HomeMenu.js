@@ -1,6 +1,6 @@
 import { Menu } from "antd";
 import { Input } from "antd";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 
 import React from "react";
 
@@ -49,14 +49,14 @@ const HomeMenuBar = styled(Menu)`
 `;
 
 const HomeMenu = () => {
-  let onSearchSubmit = () => {
-    window.location.href = "/search/query";
-  };
-
   let [SearchText, setSearchText] = useState();
   let onInput = useCallback((e) => {
     setSearchText(e.target.value);
   }, []);
+
+  let onSearchSubmit = () => {
+    window.location.href = `/search/query/${SearchText}`;
+  };
 
   return (
     <HomeMenuBar>

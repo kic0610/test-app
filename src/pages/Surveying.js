@@ -273,7 +273,7 @@ const Surveying = () => {
           X
         </span>
         <div className="text">
-          빈칸이나 잘못작성한 부분이 있는지 확인후 <br /> 작성 완료 버튼을 눌러주세요.
+          동일한 객관식 선택지가 존재하거나 <br /> 빈칸이 있는지 확인후 <br /> 작성 완료 버튼을 눌러주세요.
         </div>
         <Button type="primary" onClick={onSubmit}>
           작성 완료

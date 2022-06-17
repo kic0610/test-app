@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/boardlist", (req, res) => {
   const sqlQuery = "SELECT *FROM BOARD;";
   capstoneDB.query(sqlQuery, (err, result) => {
-    console.log(result, " <-result 완료되었습니다.  ");
-    console.log(err, "<- err 에러입니다.");
+    console.log(result, " <- boardlist result 완료되었습니다.  ");
+    console.log(err, "<- boardlist err 에러입니다.");
 
     result.map((item) => (item.SUBJECTIVE_QUESTION = JSON.parse(item.SUBJECTIVE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION = JSON.parse(item.MULTIPLECHOICE_QUESTION)));
@@ -46,8 +46,19 @@ app.get("/boardContent", (req, res) => {
     result.map((item) => (item.MULTIPLECHOICE_QUESTION = JSON.parse(item.MULTIPLECHOICE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION_OPTION = JSON.parse(item.MULTIPLECHOICE_QUESTION_OPTION)));
     res.send(result);
-    console.log(result, " <-result 완료되었습니다.  ");
-    console.log(err, "<- err 에러입니다.");
+    console.log(result, " <- boardContent result 완료되었습니다.  ");
+    console.log(err, "<- boardContent err 에러입니다.");
+  });
+});
+
+app.get("/searchContent", (req, res) => {
+  const sql = "SELECT * FROM BOARD WHERE `SERVEY_TITLE` LIKE ?;";
+  const values = "%" + req.query.SEARCH_VALUE + "%";
+
+  capstoneDB.query(sql, values, (err, result) => {
+    res.send(result);
+    console.log(result, " <- searchContent result 완료되었습니다.  ");
+    console.log(err, "<- searchContent err 에러입니다.");
   });
 });
 
@@ -68,8 +79,8 @@ app.post("/postinsert", (req, res) => {
   const values = [MyServeyKey, Title, SubjectiveQSTR, MultiplechoiceQSTR, MultiplechoiceQ_OptionSTR, DeadLine];
   capstoneDB.query(sqlQuery, values, (err, result) => {
     res.send(result);
-    console.log(result, " <-result 완료되었습니다.  ");
-    console.log(err, "<- err 에러입니다.");
+    console.log(result, " <- postinsert result 완료되었습니다.  ");
+    console.log(err, "<- postinsert err 에러입니다.");
   });
 });
 
@@ -84,8 +95,8 @@ app.post("/answerinsert", (req, res) => {
   const values = [MY_SERVEY_KEY, SubjectiveResponse, MultipleChoiceOptionResponse];
 
   answerDB.query(sqlQuery, values, (err, result) => {
-    console.log(result, " <-result 완료되었습니다.  ");
-    console.log(err, "<- err 에러입니다.");
+    console.log(result, " <- answerinsert_1 result 완료되었습니다.  ");
+    console.log(err, "<- answerinsert_1 err 에러입니다.");
   });
 
   const sqlQuery2 = "SELECT * FROM ANSWERBOARD WHERE `SERVEY_KEY` = ?;";
@@ -96,8 +107,8 @@ app.post("/answerinsert", (req, res) => {
     result.map((item) => (item.SUBJECTIVE_ANSWER = JSON.parse(item.SUBJECTIVE_ANSWER)));
 
     res.send(result);
-    console.log(result, " <-result 완료되었습니다.  ");
-    console.log(err, "<- err 에러입니다.");
+    console.log(result, " <- answerinsert_2 result 완료되었습니다.  ");
+    console.log(err, "<- answerinsert_2 err 에러입니다.");
   });
 });
 

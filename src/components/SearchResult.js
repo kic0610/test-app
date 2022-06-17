@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { LeftCircleOutlined, RightCircleOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useCallback } from "react";
+import axios from "axios";
 
 const SearchSection = styled.section`
   position: relative;
@@ -52,16 +55,25 @@ const SearchItemDate = styled.span`
 `;
 
 const SearchResult = () => {
-  let [searchData, setSearchData] = useState([
-    { 설문제목: "설문제목1", 게시글작성날짜및시간: "Sat May 21 2022 01:44:33", key: "OWEFQRF" },
-    { 설문제목: "설문제목2", 게시글작성날짜및시간: "Sat May 21 2022 12:55:46", key: "PBMFOGU" },
-  ]);
+  let [searchData, setSearchData] = useState([]);
+  let { SEARCH_VALUE } = useParams();
 
-  //게시물 클릭시 게시물고유 id를통해 페이지 전환하기
-  let postClick = (e) => {
-    window.location.href = `/post/${e.currentTarget.getAttribute("data-post-key")}`;
-    console.log(e.currentTarget.getAttribute("data-post-key"));
-  };
+  console.log(searchData, "searchData");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8003/searchContent", {
+        params: {
+          SEARCH_VALUE: SEARCH_VALUE,
+        },
+      })
+      .then((res) => {
+        console.log(res, "res searchContent");
+        setSearchData(res.data);
+      });
+  }, []);
+
+  console.log(searchData, "searchData");
 
   return (
     <div>
@@ -69,12 +81,12 @@ const SearchResult = () => {
 
       <SearchSection>
         {searchData.map((searchdata) => (
-          <SearchItem>
-            <SearchItemTitle key={searchdata.key} onClick={postClick} data-post-key={searchdata.key}>
-              {searchdata.설문제목}
-            </SearchItemTitle>
-            <SearchItemDate>{searchdata.게시글작성날짜및시간}</SearchItemDate>
-          </SearchItem>
+          <Link to={`/post/${searchdata.BOARD_ID}`} key={searchdata.BOARD_ID}>
+            <SearchItem>
+              <SearchItemTitle>{searchdata.SERVEY_TITLE}</SearchItemTitle>
+              <SearchItemDate>{searchdata.SERVEY_REGISTER_DATE}</SearchItemDate>
+            </SearchItem>
+          </Link>
         ))}
       </SearchSection>
 

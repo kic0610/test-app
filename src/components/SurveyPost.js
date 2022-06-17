@@ -108,12 +108,12 @@ const SurveyPost = () => {
   const { BOARD_ID } = useParams();
   const ChartView = useRef(null);
 
-  let [display, setdisplay] = useState("none");
+  let [displayState, setdisplayState] = useState("none");
   let [SubmitValue, setSubmitValue] = useState(false);
   let [postItem, setpostItem] = useState(null);
   let [SubjectiveResponse, SetSubjectiveResponse] = useState([]);
   let [MultipleChoiceOptionResponse, SetMultipleChoiceOptionResponse] = useState({});
-  let [ResultCount, SetResultCount] = useState([]);
+  let [AnswerState, SetAnswerState] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -127,7 +127,6 @@ const SurveyPost = () => {
       sample.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
         MultipleChoiceOptionResponse[index] = [];
       });
-      console.log(sample, "sample.MULTIPLECHOICE_QUESTIONsample.MULTIPLECHOICE_QUESTION");
     }
     fetchData();
   }, []);
@@ -161,7 +160,7 @@ const SurveyPost = () => {
 
   let onView = () => {
     if (SubmitValue) {
-      setdisplay("block");
+      setdisplayState("block");
     } else {
       alert("설문 작성후 확인해주세요.");
     }
@@ -175,7 +174,7 @@ const SurveyPost = () => {
         MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
       })
       .then((result) => {
-        SetResultCount(result.data);
+        SetAnswerState(result.data);
         setSubmitValue(true);
       })
       .catch((e) => {
@@ -231,8 +230,8 @@ const SurveyPost = () => {
                 ))}
               </div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
-              <div className="chartBox" ref={ChartView} style={{ display: display }}>
-                <PostGraph countdata={ResultCount} Options={postItem.MULTIPLECHOICE_QUESTION_OPTION[index]} index={index} />
+              <div className="chartBox" ref={ChartView} style={{ display: displayState }}>
+                <PostGraph countdata={AnswerState} Options={postItem.MULTIPLECHOICE_QUESTION_OPTION[index]} index={index} />
               </div>
             </SurveyBox>
           ))}
@@ -246,6 +245,14 @@ const SurveyPost = () => {
 
               <Input.TextArea onChange={onSubjectiveResponse} data-subjective_q-index={index} placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
+              <ul className="chartBox" ref={ChartView} style={{ display: displayState }}>
+                {AnswerState.map((data2, index2) => (
+                  <li>
+                    {data2.SUBJECTIVE_ANSWER[0][index]}
+                    {data2.ANSWER_BOARD_ID}
+                  </li>
+                ))}
+              </ul>
             </SurveyBox>
           ))}
         </ServeyForm>
