@@ -186,10 +186,11 @@ const SurveyPost = () => {
         postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
           MultipleChoiceOptionResponse[index] = [];
         });
+        SetSubjectiveResponse([]);
       });
   };
 
-  console.log(postItem, "postItem");
+  console.log(AnswerState, "AnswerState");
   if (postItem != null) {
     return (
       <Ddiv>
@@ -246,12 +247,8 @@ const SurveyPost = () => {
               <Input.TextArea onChange={onSubjectiveResponse} data-subjective_q-index={index} placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
               <ul className="chartBox" ref={ChartView} style={{ display: displayState }}>
-                {AnswerState.map((data2, index2) => (
-                  <li>
-                    {data2.SUBJECTIVE_ANSWER[0][index]}
-                    {data2.ANSWER_BOARD_ID}
-                  </li>
-                ))}
+                {/* 주관식 답변 데이터가 공백이 아닐경우에만 화면에 표시 */}
+                {AnswerState.map((data2, index2) => data2.SUBJECTIVE_ANSWER[0][index] && <li>{data2.SUBJECTIVE_ANSWER[0][index]}</li>)}
               </ul>
             </SurveyBox>
           ))}
