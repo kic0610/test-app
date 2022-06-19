@@ -10,9 +10,6 @@ import MySurvey from "./components/MySurvey";
 import HomeMenu from "./components/HomeMenu";
 import axios from "axios";
 import SurveyPost from "./components/SurveyPost";
-import shortid from "shortid";
-import SignupForm from "./pages/SignupForm";
-import LoginForm from "./pages/LoginForm";
 
 const MyFooter = styled.footer`
   position: absolute;
@@ -61,9 +58,6 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home SurveyData={homeCardData} />} />
         <Route path="/surveying" element={<Surveying />} />
-        {/* 나중에 구현 */}
-        {/* <Route path="/signup" element={<SignupForm />} /> */}
-        {/* <Route path="/login" element={<LoginForm />} /> */}
 
         <Route path="/search/query/:SEARCH_VALUE" element={<SearchResult SurveyData={homeCardData} />} />
         <Route path="/Writer_id/post" element={<MySurvey SurveyData={homeCardData} />} />

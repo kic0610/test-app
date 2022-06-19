@@ -82,13 +82,6 @@ const HomeMenu = () => {
           설문하기
         </Menu.Item>
       </NavLink>
-
-      {/* <NavLink to="/signup">
-        <Menu.Item className="MenuBTN">회원가입</Menu.Item>
-      </NavLink>
-      <NavLink to="/login">
-        <Menu.Item className="MenuBTN">로그인</Menu.Item>
-      </NavLink> */}
     </HomeMenuBar>
   );
 };

@@ -216,63 +216,6 @@ const SurveyPost = () => {
     }
   };
 
-  // let onSubmit = async () => {
-  //   // 마감시간이 이전일 경우에만 post 요청 보내기
-  //   let MultipleChoiceOptionResponseArr = Object.values(MultipleChoiceOptionResponse);
-  //   const isBelowThreshold = (data) => data.length !== 0;
-
-  //   let MultipleChoiceOptionResponseValidity = MultipleChoiceOptionResponseArr.every(isBelowThreshold);
-  //   let SubjectiveResponseValidity = SubjectiveResponse.length === postItem.SUBJECTIVE_QUESTION[0].length && SubjectiveResponse.every((data) => data !== "");
-
-  //   if (OpenState && SubjectiveResponseValidity && MultipleChoiceOptionResponseValidity) {
-  //     await axios
-  //       .post("http://localhost:8003/answerinsert", {
-  //         BOARD_ID: BOARD_ID,
-  //         SubjectiveResponse: SubjectiveResponse,
-  //         MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
-  //       })
-  //       .then((result) => {
-  //         SetAnswerState(result.data);
-  //         setSubmitValue(true);
-  //       })
-  //       .catch((e) => {
-  //         console.error(e, "e");
-  //       })
-  //       .finally(() => {
-  //         console.log("설문조사 완료");
-  //         console.log("입력값들 초기화");
-  //         postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
-  //           MultipleChoiceOptionResponse[index] = [];
-  //         });
-  //         SetSubjectiveResponse([]);
-  //       });
-  //   } else {
-  //     alert("설문조사가 마감되었습니다.");
-  //     await axios
-  //       .get("http://localhost:8003/answerinsert", {
-  //         params: {
-  //           BOARD_ID: BOARD_ID,
-  //         },
-  //       })
-  //       .then((result) => {
-  //         SetAnswerState(result.data);
-  //         setdisplayState("block");
-  //       });
-  //   }
-  // };
-
-  let aaa = () => {
-    let MultipleChoiceOptionResponseArr = Object.values(MultipleChoiceOptionResponse);
-    const isBelowThreshold = (data) => data.length !== 0;
-
-    let MultipleChoiceOptionResponseValidity = MultipleChoiceOptionResponseArr.every(isBelowThreshold);
-    let SubjectiveResponseValidity = SubjectiveResponse.length === postItem.SUBJECTIVE_QUESTION[0].length && SubjectiveResponse.every((data) => data !== "");
-
-    if (SubjectiveResponseValidity && MultipleChoiceOptionResponseValidity) {
-      console.log("제대로 입력되었습니다 설문작성 요청");
-    }
-  };
-
   console.log(postItem, "postItem");
   // postItem이 있을때만 화면에 렌더링
   if (postItem != null) {
@@ -281,7 +224,7 @@ const SurveyPost = () => {
         {OpenState ? null : <h1 style={{ marginBottom: "-2vh", marginLeft: "8.5%", fontWeight: 600 }}>설문조사가 마감되었습니다</h1>}
 
         <ServeyForm onFinish={onSubmit}>
-          <div onClick={aaa} className="TopForm">
+          <div className="TopForm">
             {postItem.SERVEY_TITLE}
 
             <div>
@@ -298,9 +241,7 @@ const SurveyPost = () => {
           {postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => (
             <SurveyBox key={shortid.generate()}>
               <div className="topContent">
-                <div className="surveyQuestion">
-                  {data},{index}
-                </div>
+                <div className="surveyQuestion">{data}</div>
               </div>
 
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
@@ -323,9 +264,7 @@ const SurveyPost = () => {
 
           {postItem.SUBJECTIVE_QUESTION[0].map((data, index) => (
             <SurveyBox key={shortid.generate()}>
-              <div className="surveyQuestion">
-                {data},{index}
-              </div>
+              <div className="surveyQuestion">{data}</div>
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "pink", height: "1px", width: "99%", display: "block" }}></div>
 
               <Input.TextArea onChange={onSubjectiveResponse} data-subjective_q-index={index} placeholder="사용자의 답변이 입력되는 란입니다."></Input.TextArea>
