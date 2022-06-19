@@ -14,6 +14,7 @@ const ServeyForm = styled(Form)`
   display: flex;
   flex-direction: column;
 
+  top: 5vh;
   left: 50%;
   transform: translateX(-50%);
   width: 70vw;
@@ -101,8 +102,6 @@ const SurveyBox = styled.div`
   }
 `;
 
-const Ddiv = styled.div``;
-
 const SurveyPost = () => {
   // 리액트 라우터로 현재 주소의 index를 가져오기 (서버와 통신하는 쿼리로사용)
   const { BOARD_ID } = useParams();
@@ -114,6 +113,7 @@ const SurveyPost = () => {
   let [SubjectiveResponse, SetSubjectiveResponse] = useState([]);
   let [MultipleChoiceOptionResponse, SetMultipleChoiceOptionResponse] = useState({});
   let [AnswerState, SetAnswerState] = useState([]);
+  let OpenState = postItem && postItem.RequestTime < postItem.SERVEY_DEADLINE_DATE;
 
   useEffect(() => {
     async function fetchData() {
@@ -122,11 +122,12 @@ const SurveyPost = () => {
           BOARD_ID: BOARD_ID,
         },
       });
-      let sample = post.data[0];
-      setpostItem(post.data[0]);
-      sample.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
+      let PostData = post.data[0];
+      setpostItem(PostData);
+      PostData.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
         MultipleChoiceOptionResponse[index] = [];
       });
+      console.log(post, "post");
     }
     fetchData();
   }, []);
@@ -167,34 +168,50 @@ const SurveyPost = () => {
   };
 
   let onSubmit = async () => {
-    await axios
-      .post("http://localhost:8003/answerinsert", {
-        BOARD_ID: BOARD_ID,
-        SubjectiveResponse: SubjectiveResponse,
-        MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
-      })
-      .then((result) => {
-        SetAnswerState(result.data);
-        setSubmitValue(true);
-      })
-      .catch((e) => {
-        console.error(e, "e");
-      })
-      .finally(() => {
-        console.log("설문조사 완료");
-        console.log("입력값들 초기화");
-        postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
-          MultipleChoiceOptionResponse[index] = [];
+    // 마감시간이 이전일 경우에만 post 요청 보내기
+    if (OpenState) {
+      await axios
+        .post("http://localhost:8003/answerinsert", {
+          BOARD_ID: BOARD_ID,
+          SubjectiveResponse: SubjectiveResponse,
+          MultipleChoiceOptionResponse: MultipleChoiceOptionResponse,
+        })
+        .then((result) => {
+          SetAnswerState(result.data);
+          setSubmitValue(true);
+        })
+        .catch((e) => {
+          console.error(e, "e");
+        })
+        .finally(() => {
+          console.log("설문조사 완료");
+          console.log("입력값들 초기화");
+          postItem.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
+            MultipleChoiceOptionResponse[index] = [];
+          });
+          SetSubjectiveResponse([]);
         });
-        SetSubjectiveResponse([]);
-      });
+    } else {
+      alert("설문조사가 마감되었습니다.");
+      await axios
+        .get("http://localhost:8003/answerinsert", {
+          params: {
+            BOARD_ID: BOARD_ID,
+          },
+        })
+        .then((result) => {
+          SetAnswerState(result.data);
+          setdisplayState("block");
+        });
+    }
   };
 
-  console.log(AnswerState, "AnswerState");
+  console.log(postItem, "postItem");
+  // postItem이 있을때만 화면에 렌더링
   if (postItem != null) {
     return (
-      <Ddiv>
-        <h1 style={{ marginLeft: "5%", fontWeight: 600 }}>ㅁㅁid의 게시물 (게시물의 id를통해 (설문제목,설문번호별 설문+설문타입,객관식선택지,주관식은구현))</h1>
+      <div>
+        {OpenState ? null : <h1 style={{ marginBottom: "-2vh", marginLeft: "8.5%", fontWeight: 600 }}>설문조사가 마감되었습니다</h1>}
 
         <ServeyForm onFinish={onSubmit}>
           <div className="TopForm">
@@ -248,12 +265,19 @@ const SurveyPost = () => {
               <div className="bottomLine" style={{ bottom: "inherit", backgroundColor: "green", height: "1px", width: "99%", display: "block" }}></div>
               <ul className="chartBox" ref={ChartView} style={{ display: displayState }}>
                 {/* 주관식 답변 데이터가 공백이 아닐경우에만 화면에 표시 */}
-                {AnswerState.map((data2, index2) => data2.SUBJECTIVE_ANSWER[0][index] && <li>{data2.SUBJECTIVE_ANSWER[0][index]}</li>)}
+                {AnswerState.map(
+                  (data2, index2) =>
+                    data2.SUBJECTIVE_ANSWER[0][index] && (
+                      <li key={shortid.generate()} style={{ marginTop: "12px" }}>
+                        {data2.SUBJECTIVE_ANSWER[0][index]}
+                      </li>
+                    )
+                )}
               </ul>
             </SurveyBox>
           ))}
         </ServeyForm>
-      </Ddiv>
+      </div>
     );
   } else {
     console.log("postItem이 null일때 빈페이지를 띄워줌");

@@ -25,6 +25,27 @@ const MyFooter = styled.footer`
   font-weight: 500;
 `;
 
+const TopBtn = styled.a`
+  display: flex;
+  position: fixed;
+
+  justify-content: center;
+  align-items: center;
+  right: 0.5vw;
+  top: 75vh;
+
+  width: 2.3rem;
+  height: 2.3rem;
+
+  font-size: 1rem;
+  font-weight: 100;
+
+  border: 1px solid black;
+  border-radius: 50%;
+  background-color: black;
+  color: white;
+`;
+
 const App = () => {
   let [homeCardData, setHomeCardData] = useState([]);
 
@@ -51,6 +72,9 @@ const App = () => {
 
         <Route path="/post/:BOARD_ID" element={<SurveyPost />} />
       </Routes>
+
+      <TopBtn href="#top">Top</TopBtn>
+
       <br />
       <br />
       <br />

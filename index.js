@@ -6,8 +6,8 @@ const mysql = require("mysql");
 const PORT = process.env.port || 8003;
 // const capstoneDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "1234", database: "capstoneDB" });
 // const answerDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "1234", database: "answerDB" });
-const capstoneDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et78", database: "capstoneDB" });
-const answerDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et78", database: "answerDB" });
+const capstoneDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et", database: "capstoneDB" });
+const answerDB = mysql.createPool({ host: "127.0.0.1", user: "root", password: "6819et", database: "answerDB" });
 
 // 서버단에서 cors 처리하는 방법(express)
 const cors = require("cors");
@@ -45,6 +45,7 @@ app.get("/boardContent", (req, res) => {
     result.map((item) => (item.SUBJECTIVE_QUESTION = JSON.parse(item.SUBJECTIVE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION = JSON.parse(item.MULTIPLECHOICE_QUESTION)));
     result.map((item) => (item.MULTIPLECHOICE_QUESTION_OPTION = JSON.parse(item.MULTIPLECHOICE_QUESTION_OPTION)));
+    result[0].RequestTime = new Date();
     res.send(result);
     console.log(result, " <- boardContent result 완료되었습니다.  ");
     console.log(err, "<- boardContent err 에러입니다.");
@@ -109,6 +110,21 @@ app.post("/answerinsert", (req, res) => {
     res.send(result);
     console.log(result, " <- answerinsert_2 result 완료되었습니다.  ");
     console.log(err, "<- answerinsert_2 err 에러입니다.");
+  });
+});
+
+// get 요청만 넣을경우 차트결과만 반환해준다
+app.get("/answerinsert", (req, res) => {
+  const sqlQuery = "SELECT * FROM ANSWERBOARD WHERE `SERVEY_KEY` = ?;";
+  const values = [req.query.BOARD_ID];
+
+  answerDB.query(sqlQuery, values, (err, result) => {
+    result.map((item) => (item.MULTIPLECHOICE_ANSWER = JSON.parse(item.MULTIPLECHOICE_ANSWER)));
+    result.map((item) => (item.SUBJECTIVE_ANSWER = JSON.parse(item.SUBJECTIVE_ANSWER)));
+
+    res.send(result);
+    console.log(result, " <- answerinsert_get result 완료되었습니다.  ");
+    console.log(err, "<- answerinsert_get err 에러입니다.");
   });
 });
 

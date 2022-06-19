@@ -9,24 +9,27 @@ function getRandomColor() {
 }
 
 const CardTitle = styled.div`
-  width: 100%;
-  height: 300px;
+  width: 20vw;
+  height: 45vh;
 
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  word-break: keep-all;
 
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 600;
   padding: 1rem;
+  border: 0.5px solid black;
+  border-radius: 4%;
+  overflow: hidden;
+  word-wrap: break-word;
 `;
 
 const ItemLink = styled(Link)`
   .CardItem {
-    width: 255px;
-    height: 370px;
+    width: 20vw;
+    height: 55vh;
     border: 1.5px solid black;
     border-radius: 4%;
     background-color: #e8f5e9;
@@ -37,6 +40,10 @@ const ItemLink = styled(Link)`
   .CardItem:hover {
     transform: scale(1.05);
   }
+  .ant-card-meta-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
 `;
 
 const HomeCard = ({ cardData }) => {
@@ -46,12 +53,8 @@ const HomeCard = ({ cardData }) => {
 
   return (
     <ItemLink to={`/post/${cardData.BOARD_ID}`}>
-      <Card
-        hoverable
-        className="CardItem"
-        cover={<CardTitle style={{ border: "0.5px solid black", borderRadius: "4%", backgroundColor: getRandomColor() }}>{cardData.SERVEY_TITLE}</CardTitle>}
-      >
-        <Card.Meta title={`${timeString_KR} 작성`} />
+      <Card className="CardItem" hoverable cover={<CardTitle style={{ backgroundColor: getRandomColor() }}>{cardData.SERVEY_TITLE}</CardTitle>}>
+        <Card.Meta style={{ textAlign: "center", position: "absolute", left: 0, width: "100%" }} title={`${timeString_KR} 작성`} />
       </Card>
     </ItemLink>
   );

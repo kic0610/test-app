@@ -8,17 +8,19 @@ import Clock from "../components/Clock";
 import axios from "axios";
 
 const HomeSection = styled.section`
-  width: 100%;
+  position: relative;
+  display: grid;
+
+  left: 50%;
+  transform: translateX(-50%);
+  justify-items: center;
+  align-items: center;
+
+  width: 95%;
   margin-top: 20px;
 
-  display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-
   row-gap: 5em;
-
-  justify-items: center;
-  align-items: flex-start;
 `;
 
 const Home = ({ SurveyData }) => {
