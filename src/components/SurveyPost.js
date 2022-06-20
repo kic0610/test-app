@@ -127,7 +127,6 @@ const SurveyPost = () => {
       PostData.MULTIPLECHOICE_QUESTION[0].map((data, index) => {
         MultipleChoiceOptionResponse[index] = [];
       });
-      console.log(post, "post");
     }
     fetchData();
   }, []);
@@ -168,14 +167,15 @@ const SurveyPost = () => {
   };
 
   let onSubmit = async () => {
-    // 마감시간이 이전일 경우에만 post 요청 보내기
     let MultipleChoiceOptionResponseArr = Object.values(MultipleChoiceOptionResponse);
     const isBelowThreshold = (data) => data.length !== 0;
 
     let MultipleChoiceOptionResponseValidity = MultipleChoiceOptionResponseArr.every(isBelowThreshold);
     let SubjectiveResponseValidity = SubjectiveResponse.length === postItem.SUBJECTIVE_QUESTION[0].length && SubjectiveResponse.every((data) => data !== "");
 
+    // 마감시간이 핸재시간 보다 이후일 경우에만 post 요청 보내기 (현재시간은 서버에서 받아온다)
     if (OpenState) {
+      // 빈답변이 있는지 확인
       if (SubjectiveResponseValidity && MultipleChoiceOptionResponseValidity) {
         await axios
           .post("http://localhost:8003/answerinsert", {
@@ -216,12 +216,11 @@ const SurveyPost = () => {
     }
   };
 
-  console.log(postItem, "postItem");
   // postItem이 있을때만 화면에 렌더링
   if (postItem != null) {
     return (
       <div>
-        {OpenState ? null : <h1 style={{ marginBottom: "-2vh", marginLeft: "8.5%", fontWeight: 600 }}>설문조사가 마감되었습니다</h1>}
+        {OpenState ? null : <h1 style={{ marginBottom: "-2vh", marginLeft: "8.5vw", fontWeight: 600 }}>설문조사가 마감되었습니다</h1>}
 
         <ServeyForm onFinish={onSubmit}>
           <div className="TopForm">

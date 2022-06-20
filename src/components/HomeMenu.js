@@ -29,8 +29,6 @@ const HomeMenuBar = styled(Menu)`
   -o-backdrop-filter: saturate(180%) blur(15px);
   backdrop-filter: saturate(180%) blur(15px);
 
-  /* background-color: #003300; */
-
   .MenuBTN {
     display: flex;
     justify-content: center;

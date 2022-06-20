@@ -161,7 +161,7 @@ const SurveyContainer = styled.div`
 const Surveying = () => {
   const SubmitModal = useRef(null);
 
-  function DeadLinetodatetime(date) {
+  const DeadLinetodatetime = (date) => {
     let 년 = date.getFullYear();
     let 월 = date.getMonth() + 1;
     let 일 = date.getDate();
@@ -170,7 +170,7 @@ const Surveying = () => {
     let 초 = date.getSeconds();
 
     return `${년}-${월}-${일} ${시}:${분}:${초}`;
-  }
+  };
 
   // 객관식 설문 데이터 생성 및 삭제 (배열데이터 map하여 사용 , component key 사용필수 , splice로 삭제도 사용해볼것)
 
@@ -267,7 +267,7 @@ const Surveying = () => {
   };
 
   return (
-    <Form onFinish={ModalOpen} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none" }}>
+    <Form onFinish={ModalOpen} style={{ msUserSelect: "none", MozUserSelect: "-moz-none", WebkitUserSelect: "none", userSelect: "none", marginTop: "5vh" }}>
       <FinalSubmit ref={SubmitModal} className="finalSubmit">
         <span className="close" onClick={ModalClose}>
           X

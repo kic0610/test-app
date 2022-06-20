@@ -29,7 +29,7 @@ const TopBtn = styled.a`
   justify-content: center;
   align-items: center;
   right: 0.5vw;
-  top: 75vh;
+  top: 76vh;
 
   width: 2.3rem;
   height: 2.3rem;

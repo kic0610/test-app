@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Card } from "antd";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 function getRandomColor() {
   return "#" + Math.floor(Math.random() * 16777215).toString(16);

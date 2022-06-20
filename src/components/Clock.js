@@ -3,10 +3,6 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useCallback, useEffect } from "react";
 
-import HomeCard from "../components/HomeCard";
-import Axios from "axios";
-import shortid from "shortid";
-
 const MainText = styled.div`
   display: block;
   text-align: center;

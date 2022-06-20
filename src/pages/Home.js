@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useState } from "react";
 
 import HomeCard from "../components/HomeCard";
 import shortid from "shortid";
 import Clock from "../components/Clock";
-import axios from "axios";
 
 const HomeSection = styled.section`
   position: relative;
@@ -25,7 +23,6 @@ const HomeSection = styled.section`
 
 const Home = ({ SurveyData }) => {
   return (
-    // prop를 받아와 하나씩 넣어서
     <div>
       <Clock />
       <HomeSection>
