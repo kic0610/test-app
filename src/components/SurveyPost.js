@@ -159,7 +159,7 @@ const SurveyPost = () => {
   );
 
   let onView = () => {
-    if (SubmitValue) {
+    if (SubmitValue || !OpenState) {
       setdisplayState("block");
     } else {
       alert("설문 작성후 확인해주세요.");
